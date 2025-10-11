@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tratamento - SlimVitta</title>
+
+  <!-- DaisyUI + Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#fdfcf9',
+              100: '#f8f7f3',
+              200: '#f0ede4',
+              300: '#e3dece',
+              400: '#d4c5a3',
+              500: '#d4a960', // dourado base
+              600: '#b28b4f',
+              700: '#8e6e3e',
+              800: '#5c4a29',
+              900: '#3c311a',
+            },
+            neutral: {
+              50: '#ffffff',
+              100: '#f9f9f8',
+              200: '#e8e6e1',
+              300: '#d1cec7',
+              400: '#a7a39a',
+              500: '#7c776e',
+              600: '#57534e',
+              700: '#3d3a36',
+              800: '#292724',
+              900: '#1a1917',
+            },
+          },
+          fontFamily: {
+            sans: ['Montserrat', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f9f9f8;
+      color: #3d3a36;
+      overflow-x: hidden;
+    }
+
+    .hero-section {
+      background: linear-gradient(rgba(212, 169, 96, 0.85), rgba(212, 169, 96, 0.85)),
+        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1500&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    .treatment-benefit {
+      transition: transform 0.3s ease;
+    }
+    
+    .treatment-benefit:hover {
+      transform: translateY(-5px);
+    }
+  </style>
+</head>
+
+<body class="leading-relaxed">
+
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-neutral-200">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="./index.html" class="text-2xl font-bold text-primary-600 tracking-tight">SlimVitta</a>
+
+      <!-- Botão menu mobile -->
+      <button id="menu-toggle" class="lg:hidden text-primary-600 text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Menu desktop -->
+      <nav class="hidden lg:flex items-center space-x-8">
+        <a href="./comofunciona.html" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Como Funciona</a>
+        <a href="./tratamento.html" class="hover:text-primary-500 text-primary-600 font-medium transition-colors border-b-2 border-primary-500">Tratamento</a>
+        <a href="./especialistas.html" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Especialistas</a>
+        <a href="./resultados.html" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Resultados</a>
+      </nav>
+
+      <!-- Botões desktop -->
+      <div class="hidden lg:flex items-center gap-3 flex-shrink-0">
+        <a
+          class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full px-5 whitespace-nowrap">
+          Área do Paciente
+        </a>
+       <a
+          class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full px-5 whitespace-nowrap">
+          Quero Uma Avaliação
+        </a>
+      </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobile-menu"
+      class="hidden flex-col items-center space-y-4 py-4 bg-white border-t border-neutral-200 mx-auto p-5 lg:hidden">
+      <a href="./comofunciona.html" class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Como Funciona
+      </a>
+      <a href="./tratamento.html" class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full w-full">
+        Tratamento
+      </a>
+      <a href="./especialistas.html" class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Especialistas
+      </a>
+      <a href="./resultados.html" class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Resultados
+      </a>
+
+      <a
+        class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Área do Paciente
+      </a>
+      <a class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full w-full">
+        Agendar Avaliação
+      </a>
+    </div>
+  </header>
+
+  <script>
+    // menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+
+  <!-- Hero Section Centralizada -->
+  <section class="hero-section py-24 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold leading-snug mb-6">
+        Tratamento com Tirzepatida
+      </h1>
+      <p class="text-lg sm:text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+        A mais avançada terapia para emagrecimento, combinando acompanhamento médico especializado e resultados comprovados.
+      </p>
+
+      <!-- Botão de CTA -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="btn bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full text-lg font-medium">
+          Iniciar Tratamento
+        </button>
+        <a href="#beneficios">
+        <button
+          class="btn btn-outline border-white text-white hover:bg-white hover:text-primary-600 px-8 py-3 rounded-full text-lg font-medium">
+          Saber Mais
+        </button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre a Tirzepatida -->
+  <section class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="lg:w-1/2">
+          <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=800&q=80" 
+               alt="Tratamento com tirzepatida" class="rounded-2xl shadow-lg w-full">
+        </div>
+        <div class="lg:w-1/2 text-center lg:text-left">
+          <h2 class="text-3xl font-bold mb-6 text-primary-700">O que é a Tirzepatida?</h2>
+          <p class="text-lg text-neutral-600 mb-6">
+            A Tirzepatida é um medicamento inovador que atua como agonista dual dos receptores GLP-1 e GIP, 
+            proporcionando uma abordagem mais eficaz para o controle do peso corporal.
+          </p>
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="bg-primary-100 p-3 rounded-full mr-4">
+                <i class="fas fa-brain text-primary-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg mb-1">Ação no Sistema Nervoso</h3>
+                <p class="text-neutral-600">Reduz o apetite e aumenta a sensação de saciedade.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-primary-100 p-3 rounded-full mr-4">
+                <i class="fas fa-seedling text-primary-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg mb-1">Metabolismo Otimizado</h3>
+                <p class="text-neutral-600">Melhora a função metabólica e controle glicêmico.</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="bg-primary-100 p-3 rounded-full mr-4">
+                <i class="fas fa-shield-alt text-primary-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg mb-1">Segurança Comprovada</h3>
+                <p class="text-neutral-600">Estudos clínicos demonstram excelente perfil de segurança.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefícios do Tratamento -->
+  <section id="beneficios" class="py-24 bg-primary-50">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4 text-primary-700">Benefícios do Nosso Tratamento</h2>
+      <p class="text-lg text-neutral-600 mb-12 max-w-2xl mx-auto">
+        Uma abordagem completa que vai além da medicação, garantindo resultados duradouros.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="treatment-benefit card bg-white p-8 rounded-2xl shadow-lg">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-weight text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Perda de Peso Eficaz</h3>
+          <p class="text-neutral-600">
+            Resultados significativos com média de 15-20% de redução do peso corporal em estudos clínicos.
+          </p>
+        </div>
+
+        <div class="treatment-benefit card bg-white p-8 rounded-2xl shadow-lg">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-heart text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Saúde Metabólica</h3>
+          <p class="text-neutral-600">
+            Melhora nos níveis glicêmicos, pressão arterial e perfil lipídico, promovendo saúde integral.
+          </p>
+        </div>
+
+        <div class="treatment-benefit card bg-white p-8 rounded-2xl shadow-lg">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-user-md text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Acompanhamento Médico</h3>
+          <p class="text-neutral-600">
+            Monitoramento contínuo por endocrinologistas especializados em emagrecimento.
+          </p>
+        </div>
+
+        <div class="treatment-benefit card bg-white p-8 rounded-2xl shadow-lg">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-apple-alt text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Suporte Nutricional</h3>
+          <p class="text-neutral-600">
+            Planos alimentares personalizados e educação nutricional para mudanças duradouras.
+          </p>
+        </div>
+
+        <div class="treatment-benefit card bg-white p-8 rounded-2xl shadow-lg">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-home text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Comodidade Total</h3>
+          <p class="text-neutral-600">
+            Consultas online e medicamentos entregues em casa, adaptando-se à sua rotina.
+          </p>
+        </div>
+
+        <div class="treatment-benefit card bg-white p-8 rounded-2xl shadow-lg">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-chart-line text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Resultados Sustentáveis</h3>
+          <p class="text-neutral-600">
+            Estratégias de manutenção para garantir que os resultados sejam duradouros.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como Funciona o Tratamento -->
+  <section class="py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4 text-primary-700">Como o Tratamento Funciona</h2>
+      <p class="text-lg text-neutral-600 mb-12 max-w-2xl mx-auto">
+        Entenda a ciência por trás da eficácia da tirzepatida no controle do peso.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+        <div class="bg-primary-50 p-8 rounded-2xl">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+            <i class="fas fa-utensils text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Controle do Apetite</h3>
+          <p class="text-neutral-600">
+            A tirzepatida age no sistema nervoso central, reduzindo a fome e aumentando a sensação de saciedade, 
+            facilitando a adoção de hábitos alimentares mais saudáveis.
+          </p>
+        </div>
+
+        <div class="bg-primary-50 p-8 rounded-2xl">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+            <i class="fas fa-cogs text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Metabolismo Ativado</h3>
+          <p class="text-neutral-600">
+            Otimiza o funcionamento metabólico, melhorando a utilização da glicose e gordura como fonte de energia, 
+            promovendo queima mais eficiente de calorias.
+          </p>
+        </div>
+
+        <div class="bg-primary-50 p-8 rounded-2xl">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+            <i class="fas fa-syringe text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Aplicação Simples</h3>
+          <p class="text-neutral-600">
+            Uso semanal através de caneta aplicadora, com dosagem personalizada conforme necessidade e resposta 
+            individual ao tratamento.
+          </p>
+        </div>
+
+        <div class="bg-primary-50 p-8 rounded-2xl">
+          <div class="bg-primary-100 p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+            <i class="fas fa-stethoscope text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-primary-700">Monitoramento Contínuo</h3>
+          <p class="text-neutral-600">
+            Acompanhamento médico regular para ajuste de dosagem, avaliação de resultados e manejo de possíveis 
+            efeitos, garantindo segurança e eficácia.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Indicações -->
+  <section class="py-24 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Para Quem é Indicado?</h2>
+      <p class="text-lg mb-12 opacity-90 max-w-2xl mx-auto">
+        O tratamento é recomendado para adultos que buscam uma solução eficaz para o controle do peso.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+        <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm">
+          <h3 class="text-xl font-bold mb-4">Indicações Principais</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-check mt-1 mr-3"></i>
+              <span>Adultos com IMC ≥ 30 kg/m² (obesidade)</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check mt-1 mr-3"></i>
+              <span>Adultos com IMC ≥ 27 kg/m² com comorbidades relacionadas</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check mt-1 mr-3"></i>
+              <span>Pacientes com dificuldade de emagrecimento com métodos convencionais</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check mt-1 mr-3"></i>
+              <span>Indivíduos que buscam abordagem médica supervisionada</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white/10 p-8 rounded-2xl backdrop-blur-sm">
+          <h3 class="text-xl font-bold mb-4">Avaliação Necessária</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-stethoscope mt-1 mr-3"></i>
+              <span>Consulta com endocrinologista</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-vial mt-1 mr-3"></i>
+              <span>Exames laboratoriais completos</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-heartbeat mt-1 mr-3"></i>
+              <span>Avaliação de condições pré-existentes</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-file-medical mt-1 mr-3"></i>
+              <span>Análise individualizada de riscos e benefícios</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section Centralizada -->
+  <section class="py-24 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Pronto para Transformar sua Saúde?</h2>
+      <p class="text-lg mb-10 opacity-90 max-w-2xl mx-auto">
+        Agende sua avaliação e descubra se o tratamento com tirzepatida é ideal para você.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="btn bg-white text-primary-600 border-none hover:bg-neutral-200 btn-lg rounded-full px-8">
+          Faça Uma Avaliação
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Centralizado -->
+  <footer class="bg-neutral-900 text-neutral-300 py-14">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
+        <div class="flex flex-col items-center md:items-start">
+          <span class="text-primary-400 font-bold text-2xl">SlimVitta</span>
+          <p class="mt-3 text-neutral-400">Acompanhamento clínico especializado com tirzepatida.</p>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Tratamento</span>
+          <a class="link link-hover block mt-1">Tirzepatida</a>
+          <a class="link link-hover block">Acompanhamento</a>
+          <a class="link link-hover block">Resultados</a>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Médicos</span>
+          <a class="link link-hover block mt-1">Nossa Equipe</a>
+          <a class="link link-hover block">Agendar Consulta</a>
+          <a class="link link-hover block">Área do Médico</a>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Contato</span>
+          <a class="link link-hover block mt-1">(11) 9999-9999</a>
+          <a class="link link-hover block">contato@slimvitta.com</a>
+          <a class="link link-hover block">Unidades</a>
+        </div>
+      </div>
+
+      <div class="border-t border-neutral-700 mt-10 pt-6 text-center text-neutral-400 text-sm">
+        <p>© 2025 SlimVitta. Todos os direitos reservados.</p>
+        <p>Feito por <a href="https://www.instagram.com/saviolidev"
+            class="text-primary-400 hover:underline">@SavioliDev</a> com ❤️ e ☕</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

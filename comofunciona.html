@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Como Funciona - SlimVitta</title>
+
+  <!-- DaisyUI + Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#fdfcf9',
+              100: '#f8f7f3',
+              200: '#f0ede4',
+              300: '#e3dece',
+              400: '#d4c5a3',
+              500: '#d4a960', // dourado base
+              600: '#b28b4f',
+              700: '#8e6e3e',
+              800: '#5c4a29',
+              900: '#3c311a',
+            },
+            neutral: {
+              50: '#ffffff',
+              100: '#f9f9f8',
+              200: '#e8e6e1',
+              300: '#d1cec7',
+              400: '#a7a39a',
+              500: '#7c776e',
+              600: '#57534e',
+              700: '#3d3a36',
+              800: '#292724',
+              900: '#1a1917',
+            },
+          },
+          fontFamily: {
+            sans: ['Montserrat', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f9f9f8;
+      color: #3d3a36;
+      overflow-x: hidden;
+    }
+
+    .hero-section {
+      background: linear-gradient(rgba(212, 169, 96, 0.85), rgba(212, 169, 96, 0.85)),
+        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1500&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    .step-number {
+      width: 60px;
+      height: 60px;
+      border: 3px solid #d4a960;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #d4a960;
+      margin: 0 auto 1rem;
+    }
+  </style>
+</head>
+
+<body class="leading-relaxed">
+
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-neutral-200">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="./index.html" class="text-2xl font-bold text-primary-600 tracking-tight">SlimVitta</a>
+
+      <!-- Botão menu mobile -->
+      <button id="menu-toggle" class="lg:hidden text-primary-600 text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Menu desktop -->
+      <nav class="hidden lg:flex items-center space-x-8">
+        <a href="./comofunciona.html" class="hover:text-primary-500 text-primary-600 font-medium transition-colors border-b-2 border-primary-500">Como Funciona</a>
+        <a href="./tratamento.html" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Tratamento</a>
+        <a href="./especialistas.html" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Especialistas</a>
+        <a href="./resultados.html" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Resultados</a>
+      </nav>
+
+      <!-- Botões desktop -->
+      <div class="hidden lg:flex items-center gap-3 flex-shrink-0">
+        <a
+          class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full px-5 whitespace-nowrap">
+          Área do Paciente
+        </a>
+       <a
+          class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full px-5 whitespace-nowrap">
+          Quero Uma Avaliação
+        </a>
+      </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobile-menu"
+      class="hidden flex-col items-center space-y-4 py-4 bg-white border-t border-neutral-200 mx-auto p-5 lg:hidden">
+      <a href="./comofunciona.html" class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full w-full">
+        Como Funciona
+      </a>
+      <a href="./tratamento.html" class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Tratamento
+      </a>
+      <a href="./especialistas.html" class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Especialistas
+      </a>
+      <a href="./resultados.html" class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Resultados
+      </a>
+
+      <a
+        class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Área do Paciente
+      </a>
+      <a class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full w-full">
+        Agendar Avaliação
+      </a>
+    </div>
+  </header>
+
+  <script>
+    // menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+
+  <!-- Hero Section Centralizada -->
+  <section class="hero-section py-24 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-4xl sm:text-5xl font-bold leading-snug mb-6">
+        Como Funciona Nosso Tratamento
+      </h1>
+      <p class="text-lg sm:text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+        Um processo simples e seguro, do primeiro contato até a manutenção dos resultados, com acompanhamento especializado em cada etapa.
+      </p>
+
+      <!-- Botão de CTA -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="btn bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full text-lg font-medium">
+          Iniciar Tratamento
+        </button>
+        <button
+          class="btn btn-outline border-white text-white hover:bg-white hover:text-primary-600 px-8 py-3 rounded-full text-lg font-medium">
+          Falar com Especialista
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Processo Detalhado -->
+  <section class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4 text-primary-700">Nosso Processo em 4 Etapas Simples</h2>
+        <p class="text-lg text-neutral-600 max-w-2xl mx-auto">
+          Cada etapa foi cuidadosamente desenvolvida para garantir sua segurança, conforto e resultados duradouros.
+        </p>
+      </div>
+
+      <!-- Etapa 1 -->
+      <div class="flex flex-col lg:flex-row items-center gap-12 mb-20">
+        <div class="lg:w-1/2 text-center lg:text-left">
+          <div class="step-number">1</div>
+          <h3 class="text-2xl font-bold mb-4 text-primary-700">Avaliação Inicial Completa</h3>
+          <p class="text-neutral-600 mb-4">
+            Começamos com uma avaliação detalhada do seu histórico de saúde, hábitos alimentares, 
+            rotina de exercícios e objetivos específicos.
+          </p>
+          <ul class="space-y-2 text-neutral-600 mb-6">
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Questionário de saúde completo</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Análise do seu perfil metabólico</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Definição de metas realistas</span>
+            </li>
+          </ul>
+        </div>
+        <div class="lg:w-1/2 flex justify-center">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" 
+               alt="Avaliação inicial" class="rounded-2xl shadow-lg w-full max-w-md">
+        </div>
+      </div>
+
+      <!-- Etapa 2 -->
+      <div class="flex flex-col lg:flex-row-reverse items-center gap-12 mb-20">
+        <div class="lg:w-1/2 text-center lg:text-left">
+          <div class="step-number">2</div>
+          <h3 class="text-2xl font-bold mb-4 text-primary-700">Consulta Médica Especializada</h3>
+          <p class="text-neutral-600 mb-4">
+            Nossos endocrinologistas analisam seu caso individualmente e desenvolvem 
+            um plano personalizado com a medicação adequada.
+          </p>
+          <ul class="space-y-2 text-neutral-600 mb-6">
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Consulta online com endocrinologista</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Prescrição personalizada</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Explicação detalhada do tratamento</span>
+            </li>
+          </ul>
+        </div>
+        <div class="lg:w-1/2 flex justify-center">
+          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80"
+               alt="Consulta médica" class="rounded-2xl shadow-lg w-full max-w-md">
+        </div>
+      </div>
+
+      <!-- Etapa 3 -->
+      <div class="flex flex-col lg:flex-row items-center gap-12 mb-20">
+        <div class="lg:w-1/2 text-center lg:text-left">
+          <div class="step-number">3</div>
+          <h3 class="text-2xl font-bold mb-4 text-primary-700">Acompanhamento Contínuo</h3>
+          <p class="text-neutral-600 mb-4">
+            Durante todo o tratamento, você conta com nossa equipe multidisciplinar 
+            para ajustes e suporte sempre que necessário.
+          </p>
+          <ul class="space-y-2 text-neutral-600 mb-6">
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Monitoramento semanal de progresso</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Ajustes na dosagem conforme necessidade</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Suporte nutricional personalizado</span>
+            </li>
+          </ul>
+        </div>
+        <div class="lg:w-1/2 flex justify-center">
+          <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80" 
+               alt="Acompanhamento" class="rounded-2xl shadow-lg w-full max-w-md">
+        </div>
+      </div>
+
+      <!-- Etapa 4 -->
+      <div class="flex flex-col lg:flex-row-reverse items-center gap-12">
+        <div class="lg:w-1/2 text-center lg:text-left">
+          <div class="step-number">4</div>
+          <h3 class="text-2xl font-bold mb-4 text-primary-700">Manutenção dos Resultados</h3>
+          <p class="text-neutral-600 mb-4">
+            Após alcançar seus objetivos, oferecemos um plano de manutenção para 
+            garantir que os resultados sejam duradouros.
+          </p>
+          <ul class="space-y-2 text-neutral-600 mb-6">
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Plano de transição para manutenção</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Acompanhamento mensal</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-500 mt-1 mr-3"></i>
+              <span>Estratégias para manter o peso</span>
+            </li>
+          </ul>
+        </div>
+        <div class="lg:w-1/2 flex justify-center">
+          <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=800&q=80" 
+               alt="Manutenção" class="rounded-2xl shadow-lg w-full max-w-md">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vantagens -->
+  <section class="py-24 bg-primary-50">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-8 text-primary-700">Vantagens do Nosso Método</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center p-6">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-home text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">100% Online</h3>
+          <p class="text-neutral-600">Todo o processo é feito remotamente, sem necessidade de deslocamento.</p>
+        </div>
+        <div class="flex flex-col items-center p-6">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-shipping-fast text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Entrega em Casa</h3>
+          <p class="text-neutral-600">Medicamentos entregues no conforto do seu lar, com frete grátis.</p>
+        </div>
+        <div class="flex flex-col items-center p-6">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-user-md text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Equipe Especializada</h3>
+          <p class="text-neutral-600">Endocrinologistas e nutricionistas à sua disposição.</p>
+        </div>
+        <div class="flex flex-col items-center p-6">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-chart-line text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Resultados Comprovados</h3>
+          <p class="text-neutral-600">Método testado e aprovado por centenas de pacientes.</p>
+        </div>
+        <div class="flex flex-col items-center p-6">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-shield-alt text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Totalmente Seguro</h3>
+          <p class="text-neutral-600">Seguimos rigorosamente as normas da ANVISA e CFM.</p>
+        </div>
+        <div class="flex flex-col items-center p-6">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-comments text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Suporte Contínuo</h3>
+          <p class="text-neutral-600">Estamos sempre disponíveis para tirar suas dúvidas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold mb-4 text-primary-700">Perguntas Frequentes</h2>
+        <p class="text-lg text-neutral-600">Tire suas dúvidas sobre como funciona nosso tratamento</p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="collapse collapse-plus bg-neutral-100 border border-neutral-200">
+          <input type="radio" name="my-accordion-3" checked="checked" />
+          <div class="collapse-title text-xl font-medium">
+            Quanto tempo leva para ver resultados?
+          </div>
+          <div class="collapse-content">
+            <p class="text-neutral-600">A maioria dos pacientes começa a notar diferenças nas primeiras 2-4 semanas, com resultados mais significativos a partir do segundo mês de tratamento.</p>
+          </div>
+        </div>
+        <div class="collapse collapse-plus bg-neutral-100 border border-neutral-200">
+          <input type="radio" name="my-accordion-3" />
+          <div class="collapse-title text-xl font-medium">
+            Preciso fazer dieta e exercícios?
+          </div>
+          <div class="collapse-content">
+            <p class="text-neutral-600">Sim, o tratamento é mais eficaz quando combinado com hábitos saudáveis. Nossos nutricionistas criam um plano alimentar personalizado e sugerem atividades físicas adequadas ao seu perfil.</p>
+          </div>
+        </div>
+        <div class="collapse collapse-plus bg-neutral-100 border border-neutral-200">
+          <input type="radio" name="my-accordion-3" />
+          <div class="collapse-title text-xl font-medium">
+            O tratamento tem efeitos colaterais?
+          </div>
+          <div class="collapse-content">
+            <p class="text-neutral-600">Como qualquer medicamento, pode apresentar efeitos colaterais. Nossos médicos monitoram constantemente e ajustam a dosagem para minimizar qualquer desconforto.</p>
+          </div>
+        </div>
+        <div class="collapse collapse-plus bg-neutral-100 border border-neutral-200">
+          <input type="radio" name="my-accordion-3" />
+          <div class="collapse-title text-xl font-medium">
+            Como são as consultas online?
+          </div>
+          <div class="collapse-content">
+            <p class="text-neutral-600">As consultas são realizadas por videochamada em horários agendados. Você recebe um link de acesso e pode participar pelo celular ou computador, sem necessidade de instalar programas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section Centralizada -->
+  <section class="py-24 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Pronto para Começar?</h2>
+      <p class="text-lg mb-10 opacity-90 max-w-2xl mx-auto">
+        Junte-se aos milhares de pacientes que já transformaram suas vidas com nosso método.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="btn bg-white text-primary-600 border-none hover:bg-neutral-200 btn-lg rounded-full px-8">
+          Iniciar Avaliação
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Centralizado -->
+  <footer class="bg-neutral-900 text-neutral-300 py-14">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
+        <div class="flex flex-col items-center md:items-start">
+          <span class="text-primary-400 font-bold text-2xl">SlimVitta</span>
+          <p class="mt-3 text-neutral-400">Acompanhamento clínico especializado com tirzepatida.</p>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Tratamento</span>
+          <a class="link link-hover block mt-1">Tirzepatida</a>
+          <a class="link link-hover block">Acompanhamento</a>
+          <a class="link link-hover block">Resultados</a>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Médicos</span>
+          <a class="link link-hover block mt-1">Nossa Equipe</a>
+          <a class="link link-hover block">Agendar Consulta</a>
+          <a class="link link-hover block">Área do Médico</a>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Contato</span>
+          <a class="link link-hover block mt-1">(11) 9999-9999</a>
+          <a class="link link-hover block">contato@slimvitta.com</a>
+          <a class="link link-hover block">Unidades</a>
+        </div>
+      </div>
+
+      <div class="border-t border-neutral-700 mt-10 pt-6 text-center text-neutral-400 text-sm">
+        <p>© 2025 SlimVitta. Todos os direitos reservados.</p>
+        <p>Feito por <a href="https://www.instagram.com/saviolidev"
+            class="text-primary-400 hover:underline">@SavioliDev</a> com ❤️ e ☕</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
