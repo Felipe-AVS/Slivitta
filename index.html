@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SlimVitta - Acompanhamento em Emagrecimento</title>
+
+  <!-- DaisyUI + Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.2/dist/full.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#fdfcf9',
+              100: '#f8f7f3',
+              200: '#f0ede4',
+              300: '#e3dece',
+              400: '#d4c5a3',
+              500: '#d4a960', // dourado base
+              600: '#b28b4f',
+              700: '#8e6e3e',
+              800: '#5c4a29',
+              900: '#3c311a',
+            },
+            neutral: {
+              50: '#ffffff',
+              100: '#f9f9f8',
+              200: '#e8e6e1',
+              300: '#d1cec7',
+              400: '#a7a39a',
+              500: '#7c776e',
+              600: '#57534e',
+              700: '#3d3a36',
+              800: '#292724',
+              900: '#1a1917',
+            },
+          },
+          fontFamily: {
+            sans: ['Montserrat', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f9f9f8;
+      color: #3d3a36;
+      overflow-x: hidden;
+    }
+
+    .hero-section {
+      background: linear-gradient(rgba(212, 169, 96, 0.85), rgba(212, 169, 96, 0.85)),
+        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1500&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card {
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+  </style>
+</head>
+
+<body class="leading-relaxed">
+
+  <!-- Header -->
+  <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-neutral-200">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <!-- Logo -->
+      <a class="text-2xl font-bold text-primary-600 tracking-tight">SlimVitta</a>
+
+      <!-- Botão menu mobile -->
+      <button id="menu-toggle" class="lg:hidden text-primary-600 text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Menu desktop -->
+      <nav class="hidden lg:flex items-center space-x-8">
+        <a href="#" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Como Funciona</a>
+        <a href="#" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Tratamento</a>
+        <a href="#" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Especialistas</a>
+        <a href="#" class="hover:text-primary-500 text-neutral-700 font-medium transition-colors">Resultados</a>
+      </nav>
+
+      <!-- Botões desktop -->
+      <div class="hidden lg:flex items-center gap-3 flex-shrink-0">
+        <a
+          class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full px-5 whitespace-nowrap">
+          Área do Paciente
+        </a>
+        <a
+          class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full px-5 whitespace-nowrap">
+          Agendar Avaliação
+        </a>
+      </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobile-menu"
+      class="hidden flex-col items-center space-y-4 py-4 bg-white border-t border-neutral-200 mx-auto p-5 lg:hidden">
+
+      <a
+        class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Como Funciona
+      </a>
+      <a
+        class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Tratamento
+      </a>
+      <a
+        class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Especialistas
+      </a>
+      <a
+        class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Resultados
+      </a>
+
+      <a
+        class="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-500 hover:text-white transition-all rounded-full w-full">
+        Área do Paciente
+      </a>
+      <a class="btn bg-primary-500 text-white hover:bg-primary-600 transition-all rounded-full w-full">
+        Agendar Avaliação
+      </a>
+
+    </div>
+  </header>
+
+  <script>
+    // menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+
+  <!-- Hero Section Centralizada -->
+  <section class="hero-section  py-24 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-4xl sm:text-4xl font-bold leading-snug mb-6">
+        Seu segredo para eliminar peso de verdade
+      </h1>
+      <p class="text-lg sm:text-lg opacity-90 mb-8 max-w-2xl mx-auto">
+        Plano totalmente online com acompanhamento médico e nutricional, feito para você atingir seus objetivos com
+        saúde e confiança.
+      </p>
+
+      <!-- Destaques com ícones -->
+      <div class="grid text-sm grid-cols-2 sm:grid-cols-4 gap-4 mb-8 p-2">
+        <div class="flex items-center gap-3 justify-center">
+          <div class="bg-primary-100 p-3 rounded-full">
+            <i class="fas fa-user-md text-primary-600 text-xl"></i>
+          </div>
+          <span class="text-white font-medium">Suporte Médico Contínuo</span>
+        </div>
+        <div class="flex items-center gap-3 justify-center">
+          <div class="bg-primary-100 p-3 rounded-full">
+            <i class="fas fa-apple-alt text-primary-600 text-xl"></i>
+          </div>
+          <span class="text-white font-medium">Nutrição Personalizada</span>
+        </div>
+        <div class="flex items-center gap-3 justify-center">
+          <div class="bg-primary-100 p-3 rounded-full">
+            <i class="fas fa-box text-primary-600 text-xl"></i>
+          </div>
+          <span class="text-white font-medium">Medicação Entregue em Casa</span>
+        </div>
+        <div class="flex items-center gap-3 justify-center">
+          <div class="bg-primary-100 p-3 rounded-full">
+            <i class="fas fa-check-circle text-primary-600 text-xl"></i>
+          </div>
+          <span class="text-white font-medium">100% dentro das Normas da ANVISA</span>
+        </div>
+      </div>
+
+      <!-- Botão de CTA -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="btn bg-white text-primary-600 hover:bg-neutral-100 px-8 py-3 rounded-full text-lg font-medium">
+          Quero uma Avaliação
+        </button>
+        <button
+          class="btn btn-outline border-white text-white hover:bg-white hover:text-primary-600 px-8 py-3 rounded-full text-lg font-medium">
+          Saiba Mais
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section Centralizada -->
+  <section class="py-24 bg-neutral-50">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-8 text-primary-700">Acompanhamento Clínico de Excelência</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-user-md text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Monitoramento Contínuo</h3>
+          <p class="text-neutral-600">Ajuste de dosagem e acompanhamento de progresso personalizado.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-chart-line text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Avaliação de Resultados</h3>
+          <p class="text-neutral-600">Controle rigoroso de parâmetros clínicos e metabólicos.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-shield-alt text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Segurança e Conforto</h3>
+          <p class="text-neutral-600">Identificação precoce de efeitos e suporte contínuo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section Centralizada -->
+  <section class="py-24 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Resultados Comprovados</h2>
+      <p class="text-lg mb-10 opacity-90 max-w-2xl mx-auto">
+        Pacientes que seguiram o plano apresentaram uma média de 15-20% de perda de peso corporal.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
+        <div>
+          <h3 class="text-xl font-semibold mb-2">Perda de Peso</h3>
+          <p class="text-4xl font-bold">15-20%</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-2">Aumento da Confiança</h3>
+          <p class="text-4xl font-bold">92%</p>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold mb-6">O que nossos pacientes dizem</h3>
+        <div class="space-y-6 max-w-2xl mx-auto">
+          <blockquote class="italic text-lg">
+            "O acompanhamento foi essencial para minha transformação. Perdi peso com saúde e segurança."
+          </blockquote>
+          <blockquote class="italic text-lg">
+            "A entrega dos medicamentos em casa facilitou muito minha rotina. Recomendo a todos."
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section Centralizada -->
+  <section class="py-24 bg-neutral-50">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-8 text-primary-700">Acompanhamento Clínico de Excelência</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-user-md text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Avaliação Médica Online</h3>
+          <p class="text-neutral-600">Consultas com endocrinologistas para prescrição personalizada.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-chart-line text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Acompanhamento Nutricional</h3>
+          <p class="text-neutral-600">Suporte contínuo para construção de novos hábitos alimentares.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-4 rounded-full mb-4">
+            <i class="fas fa-shield-alt text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">Entrega Segura e Gratuita</h3>
+          <p class="text-neutral-600">Medicamentos entregues diretamente na sua casa com frete grátis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section Centralizada -->
+  <section class="py-24 bg-neutral-100">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-8 text-primary-700">Como Funciona</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-6 rounded-full mb-4">
+            <i class="fas fa-question-circle text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">1. Preencha o Questionário</h3>
+          <p class="text-neutral-600">Responda perguntas sobre sua saúde e objetivos.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-6 rounded-full mb-4">
+            <i class="fas fa-user-md text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">2. Avaliação Médica</h3>
+          <p class="text-neutral-600">Um endocrinologista analisa suas respostas e indica o tratamento ideal.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-6 rounded-full mb-4">
+            <i class="fas fa-capsules text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">3. Receba o Tratamento</h3>
+          <p class="text-neutral-600">Medicamentos prescritos são entregues em casa com frete grátis.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="bg-primary-100 p-6 rounded-full mb-4">
+            <i class="fas fa-comments text-primary-600 text-2xl"></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2">4. Acompanhamento Contínuo</h3>
+          <p class="text-neutral-600">Suporte diário de especialistas para tirar dúvidas e ajustar o plano.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section Centralizada -->
+  <section class="py-24 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Comece Sua Transformação com Confiança</h2>
+      <p class="text-lg mb-10 opacity-90 max-w-2xl mx-auto">
+        Equipe médica dedicada e acompanhamento constante para garantir seus resultados.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="btn bg-white text-primary-600 border-none hover:bg-neutral-200 btn-lg rounded-full px-8">
+          Agendar Consulta
+        </button>
+        <button
+          class="btn btn-outline border-white text-white hover:bg-white hover:text-primary-600 btn-lg rounded-full px-8">
+          Falar com Especialista
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Centralizado -->
+  <footer class="bg-neutral-900 text-neutral-300 py-14">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
+        <div class="flex flex-col items-center md:items-start">
+          <span class="text-primary-400 font-bold text-2xl">SlimVitta</span>
+          <p class="mt-3 text-neutral-400">Acompanhamento clínico especializado com tirzepatida.</p>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Tratamento</span>
+          <a class="link link-hover block mt-1">Tirzepatida</a>
+          <a class="link link-hover block">Acompanhamento</a>
+          <a class="link link-hover block">Resultados</a>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Médicos</span>
+          <a class="link link-hover block mt-1">Nossa Equipe</a>
+          <a class="link link-hover block">Agendar Consulta</a>
+          <a class="link link-hover block">Área do Médico</a>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <span class="footer-title text-primary-400">Contato</span>
+          <a class="link link-hover block mt-1">(11) 9999-9999</a>
+          <a class="link link-hover block">contato@slimvitta.com</a>
+          <a class="link link-hover block">Unidades</a>
+        </div>
+      </div>
+
+      <div class="border-t border-neutral-700 mt-10 pt-6 text-center text-neutral-400 text-sm">
+        <p>© 2025 SlimVitta. Todos os direitos reservados.</p>
+        <p>Feito por <a href="https://www.instagram.com/saviolidev"
+            class="text-primary-400 hover:underline">@SavioliDev</a> com ❤️ e ☕</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
