@@ -6,14 +6,17 @@ class Usuario
     public $idusuario = "0";
     public $idcategoria = "";
     public $nome = "";
+    public $cpf = "";
     public $celular = "";
-    public $email = "";
     public $endereco = "";
     public $numero = "";
     public $bairro = "";
     public $cidade = "";
-    public $cep = "";
     public $senha = "";
+    public $datanascimento = "";
+    public $genero = "";
+    public $peso = "";
+    public $altura = "";
 
     public function SelectUsuario()
     {
@@ -21,14 +24,17 @@ class Usuario
                     idusuario,
                     idcategoria,
                     nome,
+                    cpf,
                     celular,
-                    email,
                     endereco,
                     numero,
                     bairro,
                     cidade,
-                    cep,
-                    senha
+                    senha,
+                    datanascimento,
+                    genero,
+                    peso,
+                    altura
                 FROM usuario
                 WHERE 1=1";
 
@@ -46,7 +52,6 @@ class Usuario
         $stmt = mysqli_prepare($this->conn, $sql);
 
         if (!$stmt) {
-
             return false;
         }
 
@@ -58,7 +63,6 @@ class Usuario
 
         // Executa a query
         if (!mysqli_stmt_execute($stmt)) {
-
             return false;
         }
 
@@ -73,7 +77,6 @@ class Usuario
 
         // Fecha o statement
         mysqli_stmt_close($stmt);
-
 
         return $usuarios;
     }
@@ -102,47 +105,50 @@ class Usuario
                 UPDATE usuario SET
                     idcategoria = ?,
                     nome = ?,
+                    cpf = ?,
                     celular = ?,
-                    email = ?,
                     endereco = ?,
                     numero = ?,
                     bairro = ?,
                     cidade = ?,
-                    cep = ?,
-                    senha = ?
+                    senha = ?,
+                    datanascimento = ?,
+                    genero = ?,
+                    peso = ?,
+                    altura = ?
                 WHERE idusuario = ?
             ";
 
             $stmt = mysqli_prepare($this->conn, $sql);
 
             if (!$stmt) {
-
                 return false;
             }
 
             mysqli_stmt_bind_param(
                 $stmt,
-                "issssissssi",
+                "issssssssssssi",
                 $this->idcategoria,
                 $this->nome,
+                $this->cpf,
                 $this->celular,
-                $this->email,
                 $this->endereco,
                 $this->numero,
                 $this->bairro,
                 $this->cidade,
-                $this->cep,
                 $this->senha,
+                $this->datanascimento,
+                $this->genero,
+                $this->peso,
+                $this->altura,
                 $this->idusuario
             );
 
             $result = mysqli_stmt_execute($stmt);
 
             if ($result) {
-
                 return true;
             } else {
-
                 return false;
             }
         } else {
@@ -150,10 +156,11 @@ class Usuario
             $sql = "
                 INSERT INTO usuario
                 (
-                    idcategoria, nome, celular, email, endereco, 
-                    numero, bairro, cidade, cep, senha
+                    idcategoria, nome, cpf, celular, endereco, 
+                    numero, bairro, cidade, senha, datanascimento,
+                    genero, peso, altura
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ";
 
             $stmt = mysqli_prepare($this->conn, $sql);
@@ -165,27 +172,28 @@ class Usuario
 
             mysqli_stmt_bind_param(
                 $stmt,
-                "issssissss",
+                "issssssssssss",
                 $this->idcategoria,
                 $this->nome,
+                $this->cpf,
                 $this->celular,
-                $this->email,
                 $this->endereco,
                 $this->numero,
                 $this->bairro,
                 $this->cidade,
-                $this->cep,
-                $this->senha
+                $this->senha,
+                $this->datanascimento,
+                $this->genero,
+                $this->peso,
+                $this->altura
             );
 
             $result = mysqli_stmt_execute($stmt);
 
             if ($result) {
                 $this->idusuario = mysqli_insert_id($this->conn);
-
                 return true;
             } else {
-
                 return false;
             }
         }
@@ -199,7 +207,6 @@ class Usuario
             $stmt = mysqli_prepare($this->conn, $sql);
 
             if (!$stmt) {
-
                 return false;
             }
 
@@ -207,91 +214,96 @@ class Usuario
             $result = mysqli_stmt_execute($stmt);
 
             if ($result) {
-
                 return true;
             } else {
-
                 return false;
             }
         } else {
-
             return false;
         }
     }
 
-   public function LogarUsuario()
-{
-    // Verifica se celular e senha foram fornecidos
-    if (!empty($this->celular) && !empty($this->senha)) {
-        $sql = "SELECT 
-                    idusuario,
-                    idcategoria,
-                    nome,
-                    celular,
-                    email,
-                    endereco,
-                    numero,
-                    bairro,
-                    cidade,
-                    cep,
-                    senha
-                FROM usuario 
-                WHERE celular = ? AND senha = ?";
-        
-        $stmt = mysqli_prepare($this->conn, $sql);
-        
-        if (!$stmt) {
-            return false;
-        }
-        
-        // Bind dos parâmetros
-        mysqli_stmt_bind_param($stmt, "ss", $this->celular, $this->senha);
-        
-        // Executa a query
-        if (!mysqli_stmt_execute($stmt)) {
-            return false;
-        }
-        
-        // Pega o resultado
-        $result = mysqli_stmt_get_result($stmt);
-        
-        // Verifica se encontrou o usuário
-        if (mysqli_num_rows($result) == 1) {
-            $usuario = mysqli_fetch_assoc($result);
+    public function LogarUsuario()
+    {
+        // Verifica se celular e senha foram fornecidos
+        if (!empty($this->celular) && !empty($this->senha)) {
+            $sql = "SELECT 
+                        idusuario,
+                        idcategoria,
+                        nome,
+                        cpf,
+                        celular,
+                        endereco,
+                        numero,
+                        bairro,
+                        cidade,
+                        senha,
+                        datanascimento,
+                        genero,
+                        peso,
+                        altura
+                    FROM usuario 
+                    WHERE celular = ? AND senha = ?";
             
-            // Preenche os dados do objeto com os dados do banco
-            $this->idusuario = $usuario['idusuario'];
-            $this->idcategoria = $usuario['idcategoria'];
-            $this->nome = $usuario['nome'];
-            $this->email = $usuario['email'];
-            $this->endereco = $usuario['endereco'];
-            $this->numero = $usuario['numero'];
-            $this->bairro = $usuario['bairro'];
-            $this->cidade = $usuario['cidade'];
-            $this->cep = $usuario['cep'];
+            $stmt = mysqli_prepare($this->conn, $sql);
             
-            // Cria a sessão
-            session_start();
-            $_SESSION['idusuario'] = $this->idusuario;
-            $_SESSION['idcategoria'] = $this->idcategoria;
-            $_SESSION['nome'] = $this->nome;
-            $_SESSION['celular'] = $this->celular;
-            $_SESSION['email'] = $this->email;
-            $_SESSION['endereco'] = $this->endereco;
-            $_SESSION['numero'] = $this->numero;
-            $_SESSION['bairro'] = $this->bairro;
-            $_SESSION['cidade'] = $this->cidade;
-            $_SESSION['cep'] = $this->cep;
+            if (!$stmt) {
+                return false;
+            }
+            
+            // Bind dos parâmetros
+            mysqli_stmt_bind_param($stmt, "ss", $this->celular, $this->senha);
+            
+            // Executa a query
+            if (!mysqli_stmt_execute($stmt)) {
+                return false;
+            }
+            
+            // Pega o resultado
+            $result = mysqli_stmt_get_result($stmt);
+            
+            // Verifica se encontrou o usuário
+            if (mysqli_num_rows($result) == 1) {
+                $usuario = mysqli_fetch_assoc($result);
+                
+                // Preenche os dados do objeto com os dados do banco
+                $this->idusuario = $usuario['idusuario'];
+                $this->idcategoria = $usuario['idcategoria'];
+                $this->nome = $usuario['nome'];
+                $this->cpf = $usuario['cpf'];
+                $this->celular = $usuario['celular'];
+                $this->endereco = $usuario['endereco'];
+                $this->numero = $usuario['numero'];
+                $this->bairro = $usuario['bairro'];
+                $this->cidade = $usuario['cidade'];
+                $this->datanascimento = $usuario['datanascimento'];
+                $this->genero = $usuario['genero'];
+                $this->peso = $usuario['peso'];
+                $this->altura = $usuario['altura'];
+                
+                // Cria a sessão
+                session_start();
+                $_SESSION['idusuario'] = $this->idusuario;
+                $_SESSION['idcategoria'] = $this->idcategoria;
+                $_SESSION['nome'] = $this->nome;
+                $_SESSION['cpf'] = $this->cpf;
+                $_SESSION['celular'] = $this->celular;
+                $_SESSION['endereco'] = $this->endereco;
+                $_SESSION['numero'] = $this->numero;
+                $_SESSION['bairro'] = $this->bairro;
+                $_SESSION['cidade'] = $this->cidade;
+                $_SESSION['datanascimento'] = $this->datanascimento;
+                $_SESSION['genero'] = $this->genero;
+                $_SESSION['peso'] = $this->peso;
+                $_SESSION['altura'] = $this->altura;
+                
+                mysqli_stmt_close($stmt);
+                return true;
+            }
             
             mysqli_stmt_close($stmt);
-            return true;
         }
         
-        mysqli_stmt_close($stmt);
+        return false;
     }
-    
-    return false;
-}
-
-
 }

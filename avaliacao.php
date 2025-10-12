@@ -90,7 +90,7 @@
       .mobile-padding {
         padding: 1rem;
       }
-      
+
       .mobile-text {
         font-size: 0.875rem;
       }
@@ -104,7 +104,7 @@
     <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
       <!-- Logo -->
       <a href="./index.html" class="text-xl font-bold text-primary-600 tracking-tight">SlimVitta</a>
-      
+
       <div class="text-sm text-neutral-500 mobile-text">
         Avaliação Médica
       </div>
@@ -113,7 +113,7 @@
 
   <!-- Conteúdo Principal -->
   <main class="max-w-2xl mx-auto mobile-padding py-6">
-    
+
     <!-- Cabeçalho do Questionário -->
     <div class="text-center mb-6">
       <h1 class="text-2xl font-bold text-primary-700 mb-3">Questionário de Saúde</h1>
@@ -124,7 +124,7 @@
 
     <!-- Questionário com Colapsáveis -->
     <div class="space-y-4" id="questionario">
-
+    <form action="./middle/usuario.php" method="post">
       <!-- Seção 1: Dados Pessoais -->
       <div class="collapse collapse-arrow questionnaire-card section-incomplete" id="section-1">
         <input type="checkbox" checked />
@@ -144,11 +144,74 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="form-control">
                 <label class="label">
+                  <span class="label-text font-medium">Nome Completo</span>
+                </label>
+                <input type="text" id="nome" name="nome" placeholder="Fulano de tal" class="input custom-input input-sm">
+              </div>
+
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-medium">CPF</span>
+                </label>
+                <input type="text" placeholder="123.123.123-12" class="input custom-input input-sm">
+              </div>
+            </div>
+
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-medium">Telefone</span>
+                </label>
+                <input type="text" id="celular" name="celular" placeholder="11999999999" class="input custom-input input-sm">
+              </div>
+
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-medium">Endereço</span>
+                </label>
+                <input type="text" id="endereco" placeholder="Rua 1" class="input custom-input input-sm">
+              </div>
+            </div>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-medium">Numero</span>
+                </label>
+                <input type="text" id="numero" placeholder="123" class="input custom-input input-sm">
+              </div>
+
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-medium">Bairro</span>
+                </label>
+                <input type="text" id="bairro" placeholder="Bairro 1" class="input custom-input input-sm">
+              </div>
+            </div>
+
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="form-control">
+                <label class="label">
+                  <span class="label-text font-medium">Cidade</span>
+                </label>
+                <input type="text" id="cidade" placeholder="São Paulo" class="input custom-input input-sm">
+              </div>
+
+               <div class="form-control">
+                <label class="label" >
+                  <span class="label-text  underline font-medium">Senha de Acesso</span>
+                </label>
+                <input type="text" id="senha" name="senha" placeholder="Crie uma senha para acessar sua conta!" class="input bg-red-200 custom-input input-sm">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="form-control">
+                <label class="label">
                   <span class="label-text font-medium">Data de Nascimento</span>
                 </label>
                 <input type="date" class="input custom-input input-sm">
               </div>
-              
+
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-medium">Gênero</span>
@@ -169,7 +232,7 @@
                 </label>
                 <input type="number" class="input custom-input input-sm" placeholder="Ex: 75.5" step="0.1">
               </div>
-              
+
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-medium">Altura (cm)</span>
@@ -535,15 +598,17 @@
         </div>
       </div>
 
-    </div>
-
-    <!-- Botão de Envio -->
-    <div class="mt-8 text-center">
-      <button type="button" class="btn btn-primary rounded-full px-8">
+       <div class="mt-8 text-center">
+      <button type="submit" class="btn bg-primary-600 text-white rounded-full px-8">
         <i class="fas fa-paper-plane mr-2"></i>
         Enviar Questionário
       </button>
     </div>
+    </form>
+    </div>
+
+    <!-- Botão de Envio -->
+   
 
   </main>
 
