@@ -300,4 +300,22 @@ class Avaliacao
 
         return $avaliacoes;
     }
+
+
+
+    public function SelectQuantidadeAvaliacaoPorUsuario($idusuario)
+    {
+        $sql = "SELECT COUNT(idavaliacao) 
+            FROM avaliacao 
+            WHERE idusuario = '{$idusuario}'";
+
+        $result = mysqli_query($this->conn, $sql);
+
+        if ($result) {
+            $row = mysqli_fetch_array($result);
+            return $row[0]; // Retorna o valor da contagem
+        } else {
+            return 0; // Retorna 0 em caso de erro
+        }
+    }
 }

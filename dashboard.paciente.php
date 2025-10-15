@@ -1,5 +1,7 @@
 <?php
-  session_start();
+session_start();
+include_once("./componentes/avaliacao.php");
+include_once("./conexao.php");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -91,10 +93,11 @@
     }
   </style>
 </head>
+
 <body class="leading-relaxed">
   <!-- Layout Principal -->
   <div class="flex min-h-screen bg-neutral-50">
-    
+
     <!-- Sidebar -->
     <div class="sidebar w-64 flex-shrink-0 bg-white border-r border-neutral-200">
       <div class="p-6">
@@ -115,22 +118,22 @@
             <i class="fas fa-tachometer-alt w-5 text-center"></i>
             <span>Visão Geral</span>
           </a>
-          
+
           <a href="./avaliacoes.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-clipboard-list w-5 text-center"></i>
             <span>Minhas Avaliações</span>
           </a>
-          
+
           <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-shopping-cart w-5 text-center"></i>
             <span>Meus Pedidos</span>
           </a>
-          
+
           <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-user w-5 text-center"></i>
             <span>Meus Dados</span>
           </a>
-          
+
           <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-chart-line w-5 text-center"></i>
             <span>Meu Progresso</span>
@@ -152,7 +155,7 @@
 
     <!-- Conteúdo Principal -->
     <div class="flex-1 flex flex-col">
-      
+
       <!-- Header -->
       <header class="bg-white border-b border-neutral-200">
         <div class="flex items-center justify-between p-6">
@@ -160,14 +163,14 @@
             <h2 class="text-2xl font-bold text-neutral-800">Minha Conta</h2>
             <div class="text-sm text-neutral-500">Bem-vindo de volta, <?php echo $_SESSION['nome']; ?></div>
           </div>
-          
+
           <div class="flex items-center space-x-4">
             <!-- Notificações -->
             <button class="btn btn-ghost btn-circle relative">
               <i class="fas fa-bell text-neutral-600"></i>
               <span class="absolute -top-1 -right-1 w-3 h-3 bg-primary-500 rounded-full"></span>
             </button>
-            
+
             <!-- Perfil -->
             <div class="dropdown dropdown-end">
               <div tabindex="0" class="flex items-center space-x-3 cursor-pointer">
@@ -190,7 +193,7 @@
 
       <!-- Conteúdo -->
       <main class="flex-1 overflow-y-auto p-6">
-        
+
         <!-- Cards de Resumo -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <!-- Card Avaliações -->
@@ -199,16 +202,23 @@
               <div class="p-3 bg-primary-100 rounded-xl">
                 <i class="fas fa-clipboard-list text-primary-600 text-xl"></i>
               </div>
+              <?php
+              $avalicao = new Avaliacao();
+              $avalicao->conn = $conn;
+              $avalicao->idusuario = $_SESSION['idusuario'];
+              $quantidadeAvaliacoes = $avalicao->SelectQuantidadeAvaliacaoPorUsuario($avalicao->idusuario);
+              ?>
               <div class="text-right">
-                <div class="text-2xl font-bold text-neutral-800">3</div>
+                <div class="text-2xl font-bold text-neutral-800"><?= $quantidadeAvaliacoes; ?></div>
                 <div class="text-sm text-neutral-500">Realizadas</div>
               </div>
             </div>
             <h3 class="font-semibold text-neutral-700 mb-1">Minhas Avaliações</h3>
-            <p class="text-sm text-neutral-500">Avaliações realizadas</p>
-            <button class="btn btn-primary btn-sm mt-3 w-full rounded-full">
-              Nova Avaliação
-            </button>
+            <a href="./avaliacoes.paciente.php">
+              <button class="btn btn-primary btn-sm mt-3 w-full rounded-full">
+                Visualizar Avaliações
+              </button>
+            </a>
           </div>
 
           <!-- Card Pedidos -->
@@ -250,11 +260,11 @@
 
         <!-- Próxima Consulta e Ações Rápidas -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          
+
           <!-- Próxima Consulta -->
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <h3 class="text-lg font-semibold text-neutral-800 mb-4">Próxima Consulta</h3>
-            
+
             <div class="bg-primary-50 rounded-xl p-4 border border-primary-200">
               <div class="flex items-center justify-between">
                 <div>
@@ -274,7 +284,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="mt-4 space-y-2">
               <button class="btn btn-outline btn-sm w-full rounded-full">
                 <i class="fas fa-calendar-plus mr-2"></i>
@@ -290,23 +300,23 @@
           <!-- Ações Rápidas -->
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <h3 class="text-lg font-semibold text-neutral-800 mb-4">Ações Rápidas</h3>
-            
+
             <div class="grid grid-cols-2 gap-4">
               <button class="btn btn-outline flex flex-col h-20 rounded-xl">
                 <i class="fas fa-prescription text-primary-600 text-xl mb-1"></i>
                 <span class="text-xs">Receitas</span>
               </button>
-              
+
               <button class="btn btn-outline flex flex-col h-20 rounded-xl">
                 <i class="fas fa-file-medical text-primary-600 text-xl mb-1"></i>
                 <span class="text-xs">Laudos</span>
               </button>
-              
+
               <button class="btn btn-outline flex flex-col h-20 rounded-xl">
                 <i class="fas fa-utensils text-primary-600 text-xl mb-1"></i>
                 <span class="text-xs">Dietas</span>
               </button>
-              
+
               <button class="btn btn-outline flex flex-col h-20 rounded-xl">
                 <i class="fas fa-dumbbell text-primary-600 text-xl mb-1"></i>
                 <span class="text-xs">Exercícios</span>
@@ -323,7 +333,7 @@
               Ver Todos
             </button>
           </div>
-          
+
           <div class="overflow-x-auto">
             <table class="table table-zebra w-full">
               <thead>
@@ -375,4 +385,5 @@
   </div>
 
 </body>
+
 </html>
