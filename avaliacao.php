@@ -153,7 +153,7 @@
                 <label class="label">
                   <span class="label-text font-medium">CPF</span>
                 </label>
-                <input type="text" placeholder="123.123.123-12" class="input custom-input input-sm">
+                <input type="text" id="cpf" name="cpf" placeholder="123.123.123-12" class="input custom-input input-sm">
               </div>
             </div>
 
@@ -169,7 +169,7 @@
                 <label class="label">
                   <span class="label-text font-medium">Endereço</span>
                 </label>
-                <input type="text" id="endereco" placeholder="Rua 1" class="input custom-input input-sm">
+                <input type="text" id="endereco" name="endereco" placeholder="Rua 1" class="input custom-input input-sm">
               </div>
             </div>
              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -177,14 +177,14 @@
                 <label class="label">
                   <span class="label-text font-medium">Numero</span>
                 </label>
-                <input type="text" id="numero" placeholder="123" class="input custom-input input-sm">
+                <input type="text" id="numero" name="numero" placeholder="123" class="input custom-input input-sm">
               </div>
 
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-medium">Bairro</span>
                 </label>
-                <input type="text" id="bairro" placeholder="Bairro 1" class="input custom-input input-sm">
+                <input type="text" id="bairro" name="bairro" placeholder="Bairro 1" class="input custom-input input-sm">
               </div>
             </div>
 
@@ -193,7 +193,7 @@
                 <label class="label">
                   <span class="label-text font-medium">Cidade</span>
                 </label>
-                <input type="text" id="cidade" placeholder="São Paulo" class="input custom-input input-sm">
+                <input type="text" id="cidade" name="cidade" placeholder="São Paulo" class="input custom-input input-sm">
               </div>
 
                <div class="form-control">
@@ -209,14 +209,14 @@
                 <label class="label">
                   <span class="label-text font-medium">Data de Nascimento</span>
                 </label>
-                <input type="date" class="input custom-input input-sm">
+                <input type="date" id="datanascimento" name="datanascimento" class="input custom-input input-sm">
               </div>
 
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-medium">Gênero</span>
                 </label>
-                <select class="select custom-input select-sm">
+                <select class="select custom-input select-sm" id="genero" name="genero" >
                   <option disabled selected>Selecione</option>
                   <option>Feminino</option>
                   <option>Masculino</option>
@@ -230,14 +230,14 @@
                 <label class="label">
                   <span class="label-text font-medium">Peso Atual (kg)</span>
                 </label>
-                <input type="number" class="input custom-input input-sm" placeholder="Ex: 75.5" step="0.1">
+                <input type="number" id="peso" name="peso" class="input custom-input input-sm" placeholder="Ex: 75.5" step="0.1">
               </div>
 
               <div class="form-control">
                 <label class="label">
                   <span class="label-text font-medium">Altura (cm)</span>
                 </label>
-                <input type="number" class="input custom-input input-sm" placeholder="Ex: 170">
+                <input type="number" id="altura" name="altura" class="input custom-input input-sm" placeholder="Ex: 170">
               </div>
             </div>
           </div>
@@ -267,19 +267,19 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="diabetes" class="radio radio-primary radio-sm" value="sim">
+                  <input type="radio" id="diabetes" name="diabetes" class="radio radio-primary radio-sm" value="sim">
                   <span class="text-sm">Sim, diabetes tipo 1</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="diabetes" class="radio radio-primary radio-sm" value="tipo2">
+                  <input type="radio" id="diabetes" name="diabetes" class="radio radio-primary radio-sm" value="tipo2">
                   <span class="text-sm">Sim, diabetes tipo 2</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="diabetes" class="radio radio-primary radio-sm" value="nao">
+                  <input type="radio" id="diabetes" name="diabetes" class="radio radio-primary radio-sm" value="nao">
                   <span class="text-sm">Não</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="diabetes" class="radio radio-primary radio-sm" value="pre">
+                  <input type="radio"id="diabetes" name="diabetes" class="radio radio-primary radio-sm" value="pre">
                   <span class="text-sm">Pré-diabetes</span>
                 </label>
               </div>
@@ -292,15 +292,15 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="hipertensao" class="radio radio-primary radio-sm" value="sim">
+                  <input type="radio" id="pressaoalta" name="pressaoalta" class="radio radio-primary radio-sm" value="sim">
                   <span class="text-sm">Sim</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="hipertensao" class="radio radio-primary radio-sm" value="nao">
+                  <input type="radio" id="pressaoalta" name="pressaoalta" class="radio radio-primary radio-sm" value="nao">
                   <span class="text-sm">Não</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="hipertensao" class="radio radio-primary radio-sm" value="nao-sei">
+                  <input type="radio" id="pressaoalta" name="pressaoalta" class="radio radio-primary radio-sm" value="nao-sei">
                   <span class="text-sm">Não sei</span>
                 </label>
               </div>
@@ -313,15 +313,15 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="colesterol" class="radio radio-primary radio-sm" value="sim">
+                  <input type="radio" id="colesterol" name="colesterol" class="radio radio-primary radio-sm" value="sim">
                   <span class="text-sm">Sim</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="colesterol" class="radio radio-primary radio-sm" value="nao">
+                  <input type="radio" id="colesterol" name="colesterol" class="radio radio-primary radio-sm" value="nao">
                   <span class="text-sm">Não</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="colesterol" class="radio radio-primary radio-sm" value="nao-sei">
+                  <input type="radio" id="colesterol" name="colesterol" class="radio radio-primary radio-sm" value="nao-sei">
                   <span class="text-sm">Não sei</span>
                 </label>
               </div>
@@ -334,11 +334,11 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="cardiaco" class="radio radio-primary radio-sm" value="sim">
+                  <input type="radio" id="problemasCardiacos" name="problemasCardiacos" class="radio radio-primary radio-sm" value="sim">
                   <span class="text-sm">Sim</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="cardiaco" class="radio radio-primary radio-sm" value="nao">
+                  <input type="radio" id="problemasCardiacos" name="problemasCardiacos" class="radio radio-primary radio-sm" value="nao">
                   <span class="text-sm">Não</span>
                 </label>
               </div>
@@ -370,23 +370,23 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="atividade" class="radio radio-primary radio-sm" value="diariamente">
+                  <input type="radio" id="frequenciaAtividadeFisica" name="frequenciaAtividadeFisica" class="radio radio-primary radio-sm" value="diariamente">
                   <span class="text-sm">Diariamente</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="atividade" class="radio radio-primary radio-sm" value="3-4x">
+                  <input type="radio" id="frequenciaAtividadeFisica" name="frequenciaAtividadeFisica" class="radio radio-primary radio-sm" value="3-4x">
                   <span class="text-sm">3-4 vezes por semana</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="atividade" class="radio radio-primary radio-sm" value="1-2x">
+                  <input type="radio" id="frequenciaAtividadeFisica" name="frequenciaAtividadeFisica" class="radio radio-primary radio-sm" value="1-2x">
                   <span class="text-sm">1-2 vezes por semana</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="atividade" class="radio radio-primary radio-sm" value="raramente">
+                  <input type="radio" id="frequenciaAtividadeFisica" name="frequenciaAtividadeFisica" class="radio radio-primary radio-sm" value="raramente">
                   <span class="text-sm">Raramente</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="atividade" class="radio radio-primary radio-sm" value="nunca">
+                  <input type="radio" id="frequenciaAtividadeFisica" name="frequenciaAtividadeFisica" class="radio radio-primary radio-sm" value="nunca">
                   <span class="text-sm">Nunca</span>
                 </label>
               </div>
@@ -399,19 +399,19 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="alimentacao" class="radio radio-primary radio-sm" value="saudavel">
+                  <input type="radio" id="alimentacao" name="alimentacao" class="radio radio-primary radio-sm" value="saudavel">
                   <span class="text-sm">Muito saudável</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="alimentacao" class="radio radio-primary radio-sm" value="razoavel">
+                  <input type="radio" id="alimentacao" name="alimentacao" class="radio radio-primary radio-sm" value="razoavel">
                   <span class="text-sm">Razoavelmente saudável</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="alimentacao" class="radio radio-primary radio-sm" value="pouco-saudavel">
+                  <input type="radio" id="alimentacao" name="alimentacao" class="radio radio-primary radio-sm" value="pouco-saudavel">
                   <span class="text-sm">Pouco saudável</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="alimentacao" class="radio radio-primary radio-sm" value="nada-saudavel">
+                  <input type="radio" id="alimentacao" name="alimentacao" class="radio radio-primary radio-sm" value="nada-saudavel">
                   <span class="text-sm">Nada saudável</span>
                 </label>
               </div>
@@ -424,19 +424,19 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="sono" class="radio radio-primary radio-sm" value="menos-5">
+                  <input type="radio" id="horasSono" name="horasSono" class="radio radio-primary radio-sm" value="menos-5">
                   <span class="text-sm">Menos de 5 horas</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="sono" class="radio radio-primary radio-sm" value="5-6">
+                  <input type="radio" id="horasSono" name="horasSono" class="radio radio-primary radio-sm" value="5-6">
                   <span class="text-sm">5-6 horas</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="sono" class="radio radio-primary radio-sm" value="7-8">
+                  <input type="radio" id="horasSono" name="horasSono" class="radio radio-primary radio-sm" value="7-8">
                   <span class="text-sm">7-8 horas</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="sono" class="radio radio-primary radio-sm" value="mais-8">
+                  <input type="radio" id="horasSono" name="horasSono" class="radio radio-primary radio-sm" value="mais-8">
                   <span class="text-sm">Mais de 8 horas</span>
                 </label>
               </div>
@@ -449,19 +449,19 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="fuma" class="radio radio-primary radio-sm" value="sim">
+                  <input type="radio" id="fuma" name="fuma" class="radio radio-primary radio-sm" value="sim">
                   <span class="text-sm">Sim, regularmente</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="fuma" class="radio radio-primary radio-sm" value="socialmente">
+                  <input type="radio" id="fuma" name="fuma" class="radio radio-primary radio-sm" value="socialmente">
                   <span class="text-sm">Socialmente</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="fuma" class="radio radio-primary radio-sm" value="parei">
+                  <input type="radio" id="fuma" name="fuma" class="radio radio-primary radio-sm" value="parei">
                   <span class="text-sm">Parei de fumar</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="fuma" class="radio radio-primary radio-sm" value="nunca">
+                  <input type="radio" id="fuma" name="fuma" class="radio radio-primary radio-sm" value="nunca">
                   <span class="text-sm">Nunca fumei</span>
                 </label>
               </div>
@@ -493,27 +493,27 @@
               </label>
               <div class="space-y-3">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" value="pressao">
+                  <input type="checkbox" id="medicamentos" name="medicamentos" class="checkbox checkbox-primary checkbox-sm" value="pressao">
                   <span class="text-sm">Medicamentos para pressão</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" value="diabetes">
+                  <input type="checkbox" id="medicamentos" name="medicamentos" class="checkbox checkbox-primary checkbox-sm" value="diabetes">
                   <span class="text-sm">Medicamentos para diabetes</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" value="colesterol">
+                  <input type="checkbox" id="medicamentos" name="medicamentos" class="checkbox checkbox-primary checkbox-sm" value="colesterol">
                   <span class="text-sm">Medicamentos para colesterol</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" value="ansiedade">
+                  <input type="checkbox" id="medicamentos" name="medicamentos" class="checkbox checkbox-primary checkbox-sm" value="ansiedade">
                   <span class="text-sm">Ansiolíticos/antidepressivos</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" value="outros">
+                  <input type="checkbox" id="medicamentos" name="medicamentos" class="checkbox checkbox-primary checkbox-sm" value="outros">
                   <span class="text-sm">Outros medicamentos</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" value="nenhum">
+                  <input type="checkbox" id="medicamentos" name="medicamentos" class="checkbox checkbox-primary checkbox-sm" value="nenhum">
                   <span class="text-sm">Não uso medicamentos</span>
                 </label>
               </div>
@@ -524,7 +524,7 @@
               <label class="label">
                 <span class="label-text font-medium">Você tem alguma alergia a medicamentos?</span>
               </label>
-              <textarea class="textarea custom-input textarea-sm h-16" placeholder="Descreva suas alergias, se houver..."></textarea>
+              <textarea id="alergias" name="alergias" class="textarea custom-input textarea-sm h-16" placeholder="Descreva suas alergias, se houver..."></textarea>
             </div>
 
             <!-- Cirurgias -->
@@ -532,7 +532,7 @@
               <label class="label">
                 <span class="label-text font-medium">Já fez alguma cirurgia? Se sim, qual?</span>
               </label>
-              <textarea class="textarea custom-input textarea-sm h-16" placeholder="Descreva cirurgias anteriores..."></textarea>
+              <textarea id="cirurgias" name="cirurgias" class="textarea custom-input textarea-sm h-16" placeholder="Descreva cirurgias anteriores..."></textarea>
             </div>
           </div>
         </div>
@@ -561,19 +561,19 @@
               </label>
               <div class="space-y-2">
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="objetivo" class="radio radio-primary radio-sm" value="emagrecer">
+                  <input type="radio" id="principalObjetivo" name="principalObjetivo" class="radio radio-primary radio-sm" value="emagrecer">
                   <span class="text-sm">Emagrecer</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="objetivo" class="radio radio-primary radio-sm" value="controle-glicemico">
+                  <input type="radio" id="principalObjetivo" name="principalObjetivo" class="radio radio-primary radio-sm" value="controle-glicemico">
                   <span class="text-sm">Controle glicêmico (açúcar no sangue)</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="objetivo" class="radio radio-primary radio-sm" value="saude-geral">
+                  <input type="radio" id="principalObjetivo" name="principalObjetivo" class="radio radio-primary radio-sm" value="saude-geral">
                   <span class="text-sm">Melhorar saúde geral</span>
                 </label>
                 <label class="flex items-center space-x-2 cursor-pointer p-2 hover:bg-neutral-50 rounded">
-                  <input type="radio" name="objetivo" class="radio radio-primary radio-sm" value="autoestima">
+                  <input type="radio" id="principalObjetivo" name="principalObjetivo" class="radio radio-primary radio-sm" value="autoestima">
                   <span class="text-sm">Melhorar autoestima</span>
                 </label>
               </div>
@@ -584,7 +584,7 @@
               <label class="label">
                 <span class="label-text font-medium">Qual peso você gostaria de alcançar? (kg)</span>
               </label>
-              <input type="number" class="input custom-input input-sm" placeholder="Ex: 65.0" step="0.1">
+              <input type="number" id="metaPeso" name="metaPeso" class="input custom-input input-sm" placeholder="Ex: 65.0" step="0.1">
             </div>
 
             <!-- Tratamentos Anteriores -->
@@ -592,7 +592,7 @@
               <label class="label">
                 <span class="label-text font-medium">Já tentou outros tratamentos para emagrecer?</span>
               </label>
-              <textarea class="textarea custom-input textarea-sm h-16" placeholder="Descreva tratamentos anteriores e resultados..."></textarea>
+              <textarea id="outrosTratamentos" name="outrosTratamentos" class="textarea custom-input textarea-sm h-16" placeholder="Descreva tratamentos anteriores e resultados..."></textarea>
             </div>
           </div>
         </div>
