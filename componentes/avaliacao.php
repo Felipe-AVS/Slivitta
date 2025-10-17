@@ -23,6 +23,8 @@ class Avaliacao
     public $principalObjetivo = "";
     public $metaPeso = "";
     public $outrosTratamentos = "";
+    public $statusavaliacao = "";
+    public $dataavaliacao = "";
 
     public function SelectAvaliacao()
     {
@@ -273,7 +275,9 @@ class Avaliacao
                     cirurgias,
                     principalObjetivo,
                     metaPeso,
-                    outrosTratamentos
+                    outrosTratamentos,
+                    statusavaliacao,
+                    dataavaliacao
                 FROM avaliacao
                 WHERE idusuario = ?";
 

@@ -208,7 +208,7 @@ include_once("./conexao.php");
               $avalicao->idusuario = $_SESSION['idusuario'];
               $quantidadeAvaliacoes = $avalicao->SelectQuantidadeAvaliacaoPorUsuario($avalicao->idusuario);
               ?>
-              <div class="text-right">
+              <div class="text-right"> 
                 <div class="text-2xl font-bold text-neutral-800"><?= $quantidadeAvaliacoes; ?></div>
                 <div class="text-sm text-neutral-500">Realizadas</div>
               </div>
