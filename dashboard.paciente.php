@@ -134,7 +134,7 @@ include_once("./conexao.php");
             <span>Meus Dados</span>
           </a>
 
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+          <a href="./progresso.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-chart-line w-5 text-center"></i>
             <span>Meu Progresso</span>
           </a>
@@ -208,7 +208,7 @@ include_once("./conexao.php");
               $avalicao->idusuario = $_SESSION['idusuario'];
               $quantidadeAvaliacoes = $avalicao->SelectQuantidadeAvaliacaoPorUsuario($avalicao->idusuario);
               ?>
-              <div class="text-right"> 
+              <div class="text-right">
                 <div class="text-2xl font-bold text-neutral-800"><?= $quantidadeAvaliacoes; ?></div>
                 <div class="text-sm text-neutral-500">Realizadas</div>
               </div>
@@ -246,15 +246,17 @@ include_once("./conexao.php");
                 <i class="fas fa-chart-line text-primary-600 text-xl"></i>
               </div>
               <div class="text-right">
-                <div class="text-2xl font-bold text-neutral-800">-8kg</div>
+                <div class="text-2xl font-bold text-neutral-800"><?= $_SESSION['difpeso'] ?>kg</div>
                 <div class="text-sm text-neutral-500">Perdidos</div>
               </div>
             </div>
             <h3 class="font-semibold text-neutral-700 mb-1">Meu Progresso</h3>
             <p class="text-sm text-neutral-500">Desde o início</p>
-            <button class="btn btn-outline btn-primary btn-sm mt-3 w-full rounded-full">
-              Ver Detalhes
-            </button>
+            <a href="./progresso.paciente.php">
+              <button class="btn btn-outline btn-primary btn-sm mt-3 w-full rounded-full">
+                Ver Detalhes
+              </button>
+            </a>
           </div>
         </div>
 
@@ -262,7 +264,7 @@ include_once("./conexao.php");
         <div class="grid mb-5">
 
           <!-- Próxima Consulta -->
-          
+
 
           <!-- Ações Rápidas -->
           <div class="dashboard-card w-full bg-white rounded-2xl p-6">

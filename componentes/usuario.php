@@ -18,9 +18,9 @@ class Usuario
     public $peso = "";
     public $altura = "";
 
-   public function SelectUsuario()
-{
-    $sql = "SELECT
+    public function SelectUsuario()
+    {
+        $sql = "SELECT
                 idusuario,
                 idcategoria,
                 nome,
@@ -38,61 +38,61 @@ class Usuario
             FROM usuario
             WHERE 1=1";
 
-    // Array para armazenar os parâmetros
-    $params = [];
-    $types = "";
+        // Array para armazenar os parâmetros
+        $params = [];
+        $types = "";
 
-    if ($this->idusuario > 0) {
-        $sql .= " AND idusuario = ?";
-        $params[] = &$this->idusuario;
-        $types .= "i";
-    }
+        if ($this->idusuario > 0) {
+            $sql .= " AND idusuario = ?";
+            $params[] = &$this->idusuario;
+            $types .= "i";
+        }
 
-    // Prepara a query
-    $stmt = mysqli_prepare($this->conn, $sql);
+        // Prepara a query
+        $stmt = mysqli_prepare($this->conn, $sql);
 
-    if (!$stmt) {
-        return false;
-    }
+        if (!$stmt) {
+            return false;
+        }
 
-    // Bind dos parâmetros se houver
-    if (!empty($params)) {
-        array_unshift($params, $stmt, $types);
-        call_user_func_array('mysqli_stmt_bind_param', $params);
-    }
+        // Bind dos parâmetros se houver
+        if (!empty($params)) {
+            array_unshift($params, $stmt, $types);
+            call_user_func_array('mysqli_stmt_bind_param', $params);
+        }
 
-    // Executa a query
-    if (!mysqli_stmt_execute($stmt)) {
-        return false;
-    }
+        // Executa a query
+        if (!mysqli_stmt_execute($stmt)) {
+            return false;
+        }
 
-    // Pega o resultado
-    $result = mysqli_stmt_get_result($stmt);
+        // Pega o resultado
+        $result = mysqli_stmt_get_result($stmt);
 
-    // Busca o primeiro resultado e preenche as propriedades do objeto
-    if ($row = mysqli_fetch_assoc($result)) {
-        $this->idcategoria = $row['idcategoria'];
-        $this->nome = $row['nome'];
-        $this->cpf = $row['cpf'];
-        $this->celular = $row['celular'];
-        $this->endereco = $row['endereco'];
-        $this->numero = $row['numero'];
-        $this->bairro = $row['bairro'];
-        $this->cidade = $row['cidade'];
-        $this->senha = $row['senha'];
-        $this->datanascimento = $row['datanascimento'];
-        $this->genero = $row['genero'];
-        $this->peso = $row['peso'];
-        $this->altura = $row['altura'];
-        
+        // Busca o primeiro resultado e preenche as propriedades do objeto
+        if ($row = mysqli_fetch_assoc($result)) {
+            $this->idcategoria = $row['idcategoria'];
+            $this->nome = $row['nome'];
+            $this->cpf = $row['cpf'];
+            $this->celular = $row['celular'];
+            $this->endereco = $row['endereco'];
+            $this->numero = $row['numero'];
+            $this->bairro = $row['bairro'];
+            $this->cidade = $row['cidade'];
+            $this->senha = $row['senha'];
+            $this->datanascimento = $row['datanascimento'];
+            $this->genero = $row['genero'];
+            $this->peso = $row['peso'];
+            $this->altura = $row['altura'];
+
+            mysqli_stmt_close($stmt);
+            return true;
+        }
+
+        // Fecha o statement
         mysqli_stmt_close($stmt);
-        return true;
+        return false;
     }
-
-    // Fecha o statement
-    mysqli_stmt_close($stmt);
-    return false;
-}
 
     public function InsertUsuario()
     {
@@ -238,48 +238,42 @@ class Usuario
 
     public function LogarUsuario()
     {
-        // Verifica se celular e senha foram fornecidos
         if (!empty($this->celular) && !empty($this->senha)) {
             $sql = "SELECT 
-                        idusuario,
-                        idcategoria,
-                        nome,
-                        cpf,
-                        celular,
-                        endereco,
-                        numero,
-                        bairro,
-                        cidade,
-                        senha,
-                        datanascimento,
-                        genero,
-                        peso,
-                        altura
-                    FROM usuario 
-                    WHERE celular = ? AND senha = ?";
-            
+                    idusuario,
+                    idcategoria,
+                    nome,
+                    cpf,
+                    celular,
+                    endereco,
+                    numero,
+                    bairro,
+                    cidade,
+                    senha,
+                    datanascimento,
+                    genero,
+                    peso,
+                    altura
+                FROM usuario 
+                WHERE celular = ? AND senha = ?";
+
             $stmt = mysqli_prepare($this->conn, $sql);
-            
+
             if (!$stmt) {
                 return false;
             }
-            
-            // Bind dos parâmetros
+
             mysqli_stmt_bind_param($stmt, "ss", $this->celular, $this->senha);
-            
-            // Executa a query
+
             if (!mysqli_stmt_execute($stmt)) {
                 return false;
             }
-            
-            // Pega o resultado
+
             $result = mysqli_stmt_get_result($stmt);
-            
-            // Verifica se encontrou o usuário
+
             if (mysqli_num_rows($result) == 1) {
                 $usuario = mysqli_fetch_assoc($result);
-                
-                // Preenche os dados do objeto com os dados do banco
+
                 $this->idusuario = $usuario['idusuario'];
                 $this->idcategoria = $usuario['idcategoria'];
                 $this->nome = $usuario['nome'];
@@ -293,9 +287,11 @@ class Usuario
                 $this->genero = $usuario['genero'];
                 $this->peso = $usuario['peso'];
                 $this->altura = $usuario['altura'];
-                
-                // Cria a sessão
-                session_start();
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+
                 $_SESSION['idusuario'] = $this->idusuario;
                 $_SESSION['idcategoria'] = $this->idcategoria;
                 $_SESSION['nome'] = $this->nome;
@@ -309,14 +305,21 @@ class Usuario
                 $_SESSION['genero'] = $this->genero;
                 $_SESSION['peso'] = $this->peso;
                 $_SESSION['altura'] = $this->altura;
-                
+
+                // ✅ Adiciona a perda total de peso na sessão
+                require_once(__DIR__ . "/progresso.php");
+                $pg = new Progresso();
+                $pg->conn = $this->conn;
+                $pg->idusuario = $this->idusuario;
+                $_SESSION['difpeso'] = $pg->CalcularPerdaPesoTotal();
+
                 mysqli_stmt_close($stmt);
                 return true;
             }
-            
+
             mysqli_stmt_close($stmt);
         }
-        
+
         return false;
     }
 }
