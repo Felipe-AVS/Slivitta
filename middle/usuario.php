@@ -44,5 +44,4 @@ include_once("../componentes/avaliacao.php");
     $avalicao->outrosTratamentos = $_POST['outrosTratamentos'];
     $avalicao->InsertAvaliacao();
 
-
     //echo "<script>window.location.href='../login.php'</script>";

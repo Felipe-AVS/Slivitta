@@ -129,7 +129,7 @@ include_once("./conexao.php");
             <span>Meus Pedidos</span>
           </a>
 
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+          <a href="./dados.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-user w-5 text-center"></i>
             <span>Meus Dados</span>
           </a>
@@ -259,49 +259,16 @@ include_once("./conexao.php");
         </div>
 
         <!-- Próxima Consulta e Ações Rápidas -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="grid mb-5">
 
           <!-- Próxima Consulta -->
-          <div class="dashboard-card bg-white rounded-2xl p-6">
-            <h3 class="text-lg font-semibold text-neutral-800 mb-4">Próxima Consulta</h3>
-
-            <div class="bg-primary-50 rounded-xl p-4 border border-primary-200">
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="font-semibold text-primary-700">Dr. Silva</div>
-                  <div class="text-sm text-primary-600">Nutricionista</div>
-                  <div class="text-xs text-primary-500 mt-1">
-                    <i class="fas fa-calendar mr-1"></i>
-                    20/01/2024 às 14:30
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="badge badge-primary badge-lg">Confirmada</div>
-                  <button class="btn btn-primary btn-sm mt-2 rounded-full">
-                    <i class="fas fa-video mr-2"></i>
-                    Entrar
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4 space-y-2">
-              <button class="btn btn-outline btn-sm w-full rounded-full">
-                <i class="fas fa-calendar-plus mr-2"></i>
-                Agendar Nova Consulta
-              </button>
-              <button class="btn btn-ghost btn-sm w-full rounded-full">
-                <i class="fas fa-history mr-2"></i>
-                Ver Histórico
-              </button>
-            </div>
-          </div>
+          
 
           <!-- Ações Rápidas -->
-          <div class="dashboard-card bg-white rounded-2xl p-6">
+          <div class="dashboard-card w-full bg-white rounded-2xl p-6">
             <h3 class="text-lg font-semibold text-neutral-800 mb-4">Ações Rápidas</h3>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-4 gap-4 w-full">
               <button class="btn btn-outline flex flex-col h-20 rounded-xl">
                 <i class="fas fa-prescription text-primary-600 text-xl mb-1"></i>
                 <span class="text-xs">Receitas</span>

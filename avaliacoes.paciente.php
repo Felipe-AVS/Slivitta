@@ -129,7 +129,7 @@ include_once("./conexao.php");
                         <span>Meus Pedidos</span>
                     </a>
 
-                    <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+                    <a href="./dados.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
                         <i class="fas fa-user w-5 text-center"></i>
                         <span>Meus Dados</span>
                     </a>

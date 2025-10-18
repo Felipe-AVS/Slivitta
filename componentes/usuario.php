@@ -18,68 +18,81 @@ class Usuario
     public $peso = "";
     public $altura = "";
 
-    public function SelectUsuario()
-    {
-        $sql = "SELECT
-                    idusuario,
-                    idcategoria,
-                    nome,
-                    cpf,
-                    celular,
-                    endereco,
-                    numero,
-                    bairro,
-                    cidade,
-                    senha,
-                    datanascimento,
-                    genero,
-                    peso,
-                    altura
-                FROM usuario
-                WHERE 1=1";
+   public function SelectUsuario()
+{
+    $sql = "SELECT
+                idusuario,
+                idcategoria,
+                nome,
+                cpf,
+                celular,
+                endereco,
+                numero,
+                bairro,
+                cidade,
+                senha,
+                datanascimento,
+                genero,
+                peso,
+                altura
+            FROM usuario
+            WHERE 1=1";
 
-        // Array para armazenar os parâmetros
-        $params = [];
-        $types = "";
+    // Array para armazenar os parâmetros
+    $params = [];
+    $types = "";
 
-        if ($this->idusuario > 0) {
-            $sql .= " AND idusuario = ?";
-            $params[] = &$this->idusuario;
-            $types .= "i";
-        }
-
-        // Prepara a query
-        $stmt = mysqli_prepare($this->conn, $sql);
-
-        if (!$stmt) {
-            return false;
-        }
-
-        // Bind dos parâmetros se houver
-        if (!empty($params)) {
-            array_unshift($params, $stmt, $types);
-            call_user_func_array('mysqli_stmt_bind_param', $params);
-        }
-
-        // Executa a query
-        if (!mysqli_stmt_execute($stmt)) {
-            return false;
-        }
-
-        // Pega o resultado
-        $result = mysqli_stmt_get_result($stmt);
-
-        // Busca todos os resultados
-        $usuarios = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $usuarios[] = $row;
-        }
-
-        // Fecha o statement
-        mysqli_stmt_close($stmt);
-
-        return $usuarios;
+    if ($this->idusuario > 0) {
+        $sql .= " AND idusuario = ?";
+        $params[] = &$this->idusuario;
+        $types .= "i";
     }
+
+    // Prepara a query
+    $stmt = mysqli_prepare($this->conn, $sql);
+
+    if (!$stmt) {
+        return false;
+    }
+
+    // Bind dos parâmetros se houver
+    if (!empty($params)) {
+        array_unshift($params, $stmt, $types);
+        call_user_func_array('mysqli_stmt_bind_param', $params);
+    }
+
+    // Executa a query
+    if (!mysqli_stmt_execute($stmt)) {
+        return false;
+    }
+
+    // Pega o resultado
+    $result = mysqli_stmt_get_result($stmt);
+
+    // Busca o primeiro resultado e preenche as propriedades do objeto
+    if ($row = mysqli_fetch_assoc($result)) {
+        $this->idcategoria = $row['idcategoria'];
+        $this->nome = $row['nome'];
+        $this->cpf = $row['cpf'];
+        $this->celular = $row['celular'];
+        $this->endereco = $row['endereco'];
+        $this->numero = $row['numero'];
+        $this->bairro = $row['bairro'];
+        $this->cidade = $row['cidade'];
+        $this->senha = $row['senha'];
+        $this->datanascimento = $row['datanascimento'];
+        $this->genero = $row['genero'];
+        $this->peso = $row['peso'];
+        $this->altura = $row['altura'];
+        
+        mysqli_stmt_close($stmt);
+        return true;
+    }
+
+    // Fecha o statement
+    mysqli_stmt_close($stmt);
+    return false;
+}
 
     public function InsertUsuario()
     {
