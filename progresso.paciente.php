@@ -23,6 +23,7 @@ $datas = ["Início", "Meio", "Atual"];
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -79,12 +80,38 @@ $datas = ["Início", "Meio", "Atual"];
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-    body { font-family: 'Montserrat', sans-serif; background-color: #f9f9f8; color: #3d3a36; }
-    .dashboard-card { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 1px solid #e8e6e1; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .dashboard-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); }
-    .sidebar-menu-item { transition: all 0.3s ease; border-radius: 12px; }
-    .sidebar-menu-item:hover { background-color: #f0ede4; transform: translateX(4px); }
-    .sidebar-menu-item.active { background-color: #d4a960; color: white; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f9f9f8;
+      color: #3d3a36;
+    }
+
+    .dashboard-card {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e8e6e1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .sidebar-menu-item {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+    }
+
+    .sidebar-menu-item:hover {
+      background-color: #f0ede4;
+      transform: translateX(4px);
+    }
+
+    .sidebar-menu-item.active {
+      background-color: #d4a960;
+      color: white;
+    }
   </style>
 </head>
 
@@ -104,23 +131,31 @@ $datas = ["Início", "Meio", "Atual"];
         </div>
 
         <nav class="space-y-2">
-          <a href="./dashboard.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
-            <i class="fas fa-tachometer-alt w-5 text-center"></i><span>Visão Geral</span>
+          <a href="./dashboard.paciente.php" class="sidebar-menu-item  flex items-center space-x-3 p-3">
+            <i class="fas fa-tachometer-alt w-5 text-center"></i>
+            <span>Visão Geral</span>
           </a>
-          <a href="./avaliacoes.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
-            <i class="fas fa-clipboard-list w-5 text-center"></i><span>Minhas Avaliações</span>
+
+          <a href="./avaliacoes.paciente.php" class="sidebar-menu-item  flex items-center space-x-3 p-3">
+            <i class="fas fa-clipboard-list w-5 text-center"></i>
+            <span>Minhas Avaliações</span>
           </a>
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
-            <i class="fas fa-shopping-cart w-5 text-center"></i><span>Meus Pedidos</span>
+
+          <a href="pedido.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
+            <i class="fas fa-shopping-cart w-5 text-center"></i>
+            <span>Meus Pedidos</span>
           </a>
+
           <a href="./dados.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
-            <i class="fas fa-user w-5 text-center"></i><span>Meus Dados</span>
+            <i class="fas fa-user w-5 text-center"></i>
+            <span>Meus Dados</span>
           </a>
-          <a href="./progresso.paciente.php" class="sidebar-menu-item active flex items-center space-x-3 p-3">
-            <i class="fas fa-chart-line w-5 text-center"></i><span>Meu Progresso</span>
+
+          <a href="progresso.paciente.php" class="sidebar-menu-item active flex items-center space-x-3 p-3">
+            <i class="fas fa-chart-line w-5 text-center"></i>
+            <span>Meu Progresso</span>
           </a>
         </nav>
-
         <div class="my-6 border-t border-neutral-200"></div>
 
         <nav class="space-y-2">
@@ -199,16 +234,29 @@ $datas = ["Início", "Meio", "Atual"];
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
         scales: {
           y: {
             reverse: true, // mostra visualmente a perda como descida
-            title: { display: true, text: 'Peso (kg)' }
+            title: {
+              display: true,
+              text: 'Peso (kg)'
+            }
           },
-          x: { title: { display: true, text: 'Período' } }
+          x: {
+            title: {
+              display: true,
+              text: 'Período'
+            }
+          }
         }
       }
     });
   </script>
 </body>
+
 </html>

@@ -124,7 +124,7 @@ include_once("./conexao.php");
                         <span>Minhas Avaliações</span>
                     </a>
 
-                    <a href="#" class="sidebar-menu-item flex active items-center space-x-3 p-3">
+                    <a href="pedido.paciente.php" class="sidebar-menu-item flex active items-center space-x-3 p-3">
                         <i class="fas fa-shopping-cart w-5 text-center"></i>
                         <span>Meus Pedidos</span>
                     </a>
@@ -134,7 +134,7 @@ include_once("./conexao.php");
                         <span>Meus Dados</span>
                     </a>
 
-                    <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+                    <a href="progresso.paciente.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
                         <i class="fas fa-chart-line w-5 text-center"></i>
                         <span>Meu Progresso</span>
                     </a>
