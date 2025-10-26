@@ -1,6 +1,8 @@
 <?php
 session_start();
 include_once("./componentes/pedido.php");
+include_once("./componentes/produto.php");
+include_once("./componentes/pedidostatus.php");
 include_once("./conexao.php");
 ?>
 <!DOCTYPE html>
@@ -160,7 +162,7 @@ include_once("./conexao.php");
             <header class="bg-white border-b border-neutral-200">
                 <div class="flex items-center justify-between p-6">
                     <div class="flex items-center space-x-4">
-                        <h2 class="text-2xl font-bold text-neutral-800">Minha Conta</h2>
+                        <h2 class="text-2xl font-bold text-neutral-800">Meus Pedidos</h2>
                         <div class="text-sm text-neutral-500">Bem-vindo de volta, <?php echo $_SESSION['nome']; ?></div>
                     </div>
 
@@ -196,7 +198,7 @@ include_once("./conexao.php");
 
                 <!-- Cards de Resumo -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <!-- Card Avaliações -->
+                    <!-- Card Total de Pedidos -->
                     <div class="dashboard-card bg-white rounded-2xl p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div class="p-3 bg-primary-100 rounded-xl">
@@ -213,32 +215,67 @@ include_once("./conexao.php");
                                 <div class="text-sm text-neutral-500">Realizados</div>
                             </div>
                         </div>
-                        <h3 class="font-semibold text-neutral-700 mb-1">Meus Pedidos</h3>
-                        <a href="./avaliacoes.paciente.php">
-                        </a>
+                        <h3 class="font-semibold text-neutral-700 mb-1">Total de Pedidos</h3>
                     </div>
 
-                    <!-- Card Pedidos -->
+                    <!-- Card Pedidos Pendentes -->
+                    <div class="dashboard-card bg-white rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-3 bg-orange-100 rounded-xl">
+                                <i class="fas fa-clock text-orange-600 text-xl"></i>
+                            </div>
+                            <?php
+                            $pedidoPendente = new Pedido();
+                            $pedidoPendente->conn = $conn;
+                            $pedidoPendente->idusuario = $_SESSION['idusuario'];
+                            $pedidos = $pedidoPendente->SelectPedidoPorUsuario();
+                            $pendentes = 0;
+                            foreach ($pedidos as $p) {
+                                if ($p['idpedidostatus'] <= 2) { // Assumindo que 1 é Pendente
+                                    $pendentes++;
+                                }
+                            }
+                            ?>
+                            <div class="text-right">
+                                <div class="text-2xl font-bold text-orange-600"><?= $pendentes; ?></div>
+                                <div class="text-sm text-neutral-500">Pendentes</div>
+                            </div>
+                        </div>
+                        <h3 class="font-semibold text-neutral-700 mb-1">Pedidos Pendentes</h3>
+                    </div>
 
-
-                    <!-- Card Progresso -->
-
+                 
                 </div>
 
-                <!-- Próxima Consulta e Ações Rápidas -->
+                <!-- Pedidos Recentes -->
                 <div class="lg:grid-cols-2 gap-6 mb-8">
-
-                    <!-- Pedidos Recentes -->
                     <div class="dashboard-card bg-white rounded-2xl p-6">
                         <div class="flex items-center justify-between mb-6">
                             <h3 class="text-lg font-semibold text-neutral-800">Pedidos Recentes</h3>
+                            <div class="flex gap-2">
+                                <button onclick="openModal('novoPedido')" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus mr-1"></i>
+                                    Novo Pedido
+                                </button>
+                            </div>
                         </div>
                         <?php
                         $pedidocomp = new Pedido();
                         $pedidocomp->conn = $conn;
                         $pedidocomp->idusuario = $_SESSION['idusuario'];
                         $listaPedido = $pedidocomp->SelectPedidoPorUsuario();
-                        ?>
+
+                        if (empty($listaPedido)): ?>
+                            <div class="text-center py-12">
+                                <i class="fas fa-shopping-cart text-4xl text-neutral-300 mb-4"></i>
+                                <h4 class="text-lg font-semibold text-neutral-600 mb-2">Nenhum pedido encontrado</h4>
+                                <p class="text-neutral-500 mb-4">Você ainda não realizou nenhum pedido.</p>
+                                <button onclick="openModal('novoPedido')" class="btn btn-primary">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Fazer Primeiro Pedido
+                                </button>
+                            </div>
+                        <?php else: ?>
                         <div class="overflow-x-auto">
                             <table class="table text-2xl p-3">
                                 <thead>
@@ -256,29 +293,284 @@ include_once("./conexao.php");
                                     foreach ($listaPedido as $lp) {
                                         $id = $lp['idpedido'];
                                         $data = $lp['data'];
-                                        $produto = $lp['idproduto'];
+                                        $idproduto = $lp['idproduto'];
                                         $valor = $lp['total'];
-                                        $status = $lp['idpedidostatus'];
+                                        $idstatus = $lp['idpedidostatus'];
 
+                                        $produto = new Produto();
+                                        $produto->conn = $conn;
+                                        $produto->idproduto = $idproduto;
+                                        $produtos = $produto->SelectProduto();
+                                        $nomeProduto = !empty($produtos) ? $produtos[0]['produto'] : "Produto não encontrado";
+                                        $valorproduto = !empty($produtos) ? $produtos[0]['valor'] : "0.00";
 
+                                        $status = new PedidoStatus();
+                                        $status->conn = $conn;
+                                        $status->idpedidostatus = $idstatus;
+                                        $status->CarregarStatus();
+                                        $statusatual = $status->status ?: "Status não encontrado";
+
+                                        // Definir cor baseada no status
+                                        $statusCor = "bg-blue-100 text-blue-800";
+                                        if (strpos(strtolower($statusatual), 'entregue') !== false) {
+                                            $statusCor = "bg-green-100 text-green-800";
+                                        } elseif (strpos(strtolower($statusatual), 'cancel') !== false) {
+                                            $statusCor = "bg-red-100 text-red-800";
+                                        } elseif (strpos(strtolower($statusatual), 'pendente') !== false) {
+                                            $statusCor = "bg-orange-100 text-orange-800";
+                                        }
                                     ?>
                                         <tr class="text-center">
-                                            <td><?=$id;?></td>
-                                            <td><?=$produto;?></td>
-                                            <td><?=$valor;?></td>
-                                            <td><?=$status;?></td>
+                                            <td class="font-semibold">#<?=$id;?></td>
+                                            <td><?=$nomeProduto;?></td>
+                                            <td>R$ <?=number_format($valorproduto, 2, ',', '.');?></td>
+                                            <td>
+                                                <span class="px-2 py-1 rounded-full text-xs font-medium <?=$statusCor;?>">
+                                                    <?=$statusatual;?>
+                                                </span>
+                                            </td>
                                             <td><?=date('d/m/Y',strtotime($data));?></td>
-                                            <td><button><i class="fas fa-check"></i></button></td>
+                                            <td>
+                                                <div class="flex justify-center gap-2">
+                                                    <button class="btn btn-ghost btn-sm text-primary hover:text-primary-600">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-ghost btn-sm text-green-600 hover:text-green-700">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
                         </div>
+                        <?php endif; ?>
                     </div>
+                </div>
 
             </main>
         </div>
     </div>
+
+    <!-- Modal para Novo Pedido -->
+<div id="modalNovoPedido" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-neutral-800">Realizar Novo Pedido</h3>
+            <button onclick="closeModal('novoPedido')" class="text-neutral-400 hover:text-neutral-600">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <form id="formNovoPedido" method="POST" action="realizar_pedido.php">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Seleção de Produto -->
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-neutral-700 mb-2">Selecione o Produto *</label>
+                    <select 
+                        name="idproduto" 
+                        class="w-full px-4 py-3 border border-neutral-300 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        required
+                        onchange="atualizarInformacoesProduto(this)">
+                        <option value="">Selecione um produto</option>
+                        <?php
+                        $produto = new Produto();
+                        $produto->conn = $conn;
+                        $produtos = $produto->SelectProduto();
+                        
+                        foreach ($produtos as $prod) {
+                            echo "<option value='{$prod['idproduto']}' 
+                                  data-valor='{$prod['valor']}'
+                                  data-frete='15.00'
+                                  data-taxas='0.00'>
+                                  {$prod['produto']} - R$ " . number_format($prod['valor'], 2, ',', '.') . "
+                                  </option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- Informações do Produto Selecionado -->
+                <div class="col-span-2 bg-neutral-50 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-neutral-700 mb-3">Informações do Produto</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Valor do Produto -->
+                        <div>
+                            <label class="block text-xs font-medium text-neutral-500 mb-1">Valor do Produto</label>
+                            <div class="text-lg font-semibold text-neutral-800" id="displayValorProduto">
+                                R$ 0,00
+                            </div>
+                            <input type="hidden" name="valor_produto" id="valorProdutoInput" value="0">
+                        </div>
+
+                        <!-- Frete -->
+                        <div>
+                            <label class="block text-xs font-medium text-neutral-500 mb-1">Frete</label>
+                            <div class="text-lg font-semibold text-neutral-800" id="displayFrete">
+                                R$ 0,00
+                            </div>
+                            <input type="hidden" name="frete" id="freteInput" value="0">
+                        </div>
+
+                        <!-- Taxas -->
+                        <div>
+                            <label class="block text-xs font-medium text-neutral-500 mb-1">Taxas</label>
+                            <div class="text-lg font-semibold text-neutral-800" id="displayTaxas">
+                                R$ 0,00
+                            </div>
+                            <input type="hidden" name="taxas" id="taxasInput" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forma de Pagamento -->
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-neutral-700 mb-2">Forma de Pagamento *</label>
+                    <select 
+                        name="idformapagamento" 
+                        class="w-full px-4 py-3 border border-neutral-300 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        required>
+                        <option value="">Selecione a forma de pagamento</option>
+                        <option value="1">Cartão de Crédito</option>
+                        <option value="2">Cartão de Débito</option>
+                        <option value="3">PIX</option>
+                        <option value="4">Boleto</option>
+                    </select>
+                </div>
+
+                <!-- Total do Pedido -->
+                <div class="col-span-2">
+                    <div class="bg-primary-50 border border-primary-200 rounded-xl p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-semibold text-primary-700">Total do Pedido:</span>
+                            <span id="totalPedido" class="text-2xl font-bold text-primary-600">R$ 0,00</span>
+                        </div>
+                        <input type="hidden" name="total" id="totalInput" value="0">
+                    </div>
+                </div>
+
+                <!-- Observações -->
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-neutral-700 mb-2">Observações</label>
+                    <textarea 
+                        name="observacoes"
+                        rows="3"
+                        class="w-full px-4 py-3 border border-neutral-300 bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        placeholder="Observações adicionais sobre o pedido..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="flex gap-3 mt-8">
+                <button 
+                    type="button" 
+                    onclick="closeModal('novoPedido')"
+                    class="flex-1 px-4 py-3 border border-neutral-300 text-neutral-700 rounded-xl hover:bg-neutral-50 transition-colors">
+                    Cancelar
+                </button>
+                <button 
+                    type="submit"
+                    class="flex-1 px-4 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">
+                    Confirmar Pedido
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Função para atualizar todas as informações do produto selecionado
+function atualizarInformacoesProduto(select) {
+    const selectedOption = select.options[select.selectedIndex];
+    const valor = selectedOption.getAttribute('data-valor') || 0;
+    const frete = selectedOption.getAttribute('data-frete') || 0;
+    const taxas = selectedOption.getAttribute('data-taxas') || 0;
+    
+    // Formatar e exibir os valores
+    const formatarValor = (valor) => {
+        return 'R$ ' + parseFloat(valor).toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    };
+
+    // Atualiza os displays
+    document.getElementById('displayValorProduto').textContent = formatarValor(valor);
+    document.getElementById('displayFrete').textContent = formatarValor(frete);
+    document.getElementById('displayTaxas').textContent = formatarValor(taxas);
+    
+    // Atualiza os campos hidden
+    document.getElementById('valorProdutoInput').value = valor;
+    document.getElementById('freteInput').value = frete;
+    document.getElementById('taxasInput').value = taxas;
+    
+    // Atualiza o cálculo total
+    calcularTotal();
+}
+
+function calcularTotal() {
+    const valorProduto = parseFloat(document.getElementById('valorProdutoInput').value) || 0;
+    const frete = parseFloat(document.getElementById('freteInput').value) || 0;
+    const taxas = parseFloat(document.getElementById('taxasInput').value) || 0;
+    
+    const total = valorProduto + frete + taxas;
+    
+    // Atualiza o display do total
+    document.getElementById('totalPedido').textContent = 'R$ ' + total.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+    
+    // Atualiza o campo hidden do total
+    document.getElementById('totalInput').value = total;
+}
+
+// Funções para abrir e fechar modal
+function openModal(tipo) {
+    if (tipo === 'novoPedido') {
+        document.getElementById('modalNovoPedido').classList.remove('hidden');
+        document.getElementById('modalNovoPedido').classList.add('flex');
+        // Resetar valores ao abrir o modal
+        setTimeout(() => {
+            const select = document.querySelector('select[name="idproduto"]');
+            if (select.value) {
+                atualizarInformacoesProduto(select);
+            }
+        }, 100);
+    }
+}
+
+function closeModal(tipo) {
+    if (tipo === 'novoPedido') {
+        document.getElementById('modalNovoPedido').classList.add('hidden');
+        document.getElementById('modalNovoPedido').classList.remove('flex');
+        
+        // Resetar o formulário
+        document.getElementById('formNovoPedido').reset();
+        document.getElementById('displayValorProduto').textContent = 'R$ 0,00';
+        document.getElementById('displayFrete').textContent = 'R$ 0,00';
+        document.getElementById('displayTaxas').textContent = 'R$ 0,00';
+        document.getElementById('totalPedido').textContent = 'R$ 0,00';
+    }
+}
+
+// Fechar modal ao clicar fora do conteúdo
+document.addEventListener('click', function(event) {
+    if (event.target.id === 'modalNovoPedido') {
+        closeModal('novoPedido');
+    }
+});
+
+// Fechar com tecla ESC
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModal('novoPedido');
+    }
+});
+</script>
 
 </body>
 
