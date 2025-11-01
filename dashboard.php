@@ -1,3 +1,15 @@
+<?php
+include_once("./conexao.php");
+include_once("./componentes/avaliacao.php");
+
+$aval = new Avaliacao();
+$aval->conn = $conn;
+$status = 2;
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -102,7 +114,7 @@
 <body class="leading-relaxed">
   <!-- Layout Principal -->
   <div class="flex h-screen bg-neutral-50">
-    
+
     <!-- Sidebar -->
     <div class="sidebar w-64 flex-shrink-0">
       <div class="p-6">
@@ -113,33 +125,33 @@
           </div>
           <div>
             <h1 class="text-xl font-bold text-primary-600">SlimVitta</h1>
-            <p class="text-xs text-neutral-500">Dashboard</p>
+            <p class="text-xs text-neutral-500">Dashboard Empresarial</p>
           </div>
         </div>
 
         <!-- Menu de Navegação -->
         <nav class="space-y-2">
-          <a href="#" class="sidebar-menu-item active flex items-center space-x-3 p-3">
+          <a href="./dashboard.php" class="sidebar-menu-item active flex items-center space-x-3 p-3">
             <i class="fas fa-tachometer-alt w-5 text-center"></i>
             <span>Visão Geral</span>
           </a>
-          
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.avaliacoes.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-clipboard-list w-5 text-center"></i>
             <span>Avaliações</span>
           </a>
-          
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.pacientes.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-user-friends w-5 text-center"></i>
             <span>Pacientes</span>
           </a>
-          
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.pedidos.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-shopping-cart w-5 text-center"></i>
             <span>Pedidos</span>
           </a>
-          
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.faturamento.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-chart-line w-5 text-center"></i>
             <span>Faturamento</span>
           </a>
@@ -150,14 +162,9 @@
 
         <!-- Menu Secundário -->
         <nav class="space-y-2">
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
-            <i class="fas fa-cog w-5 text-center"></i>
-            <span>Configurações</span>
-          </a>
-          
-          <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
-            <i class="fas fa-question-circle w-5 text-center"></i>
-            <span>Ajuda</span>
+          <a href="./middle/logout.php" class="sidebar-menu-item flex items-center space-x-3 p-3 text-red-600">
+            <i class="fas fa-sign-out-alt w-5 text-center"></i>
+            <span>Sair</span>
           </a>
         </nav>
       </div>
@@ -165,7 +172,7 @@
 
     <!-- Conteúdo Principal -->
     <div class="flex-1 flex flex-col overflow-hidden">
-      
+
       <!-- Header -->
       <header class="bg-white border-b border-neutral-200">
         <div class="flex items-center justify-between p-6">
@@ -173,14 +180,14 @@
             <h2 class="text-2xl font-bold text-neutral-800">Dashboard</h2>
             <div class="text-sm text-neutral-500">Bem-vindo de volta, Dr. Silva</div>
           </div>
-          
+
           <div class="flex items-center space-x-4">
             <!-- Notificações -->
             <button class="btn btn-ghost btn-circle relative">
               <i class="fas fa-bell text-neutral-600"></i>
               <span class="absolute -top-1 -right-1 w-3 h-3 bg-primary-500 rounded-full"></span>
             </button>
-            
+
             <!-- Perfil -->
             <div class="dropdown dropdown-end">
               <div tabindex="0" class="flex items-center space-x-3 cursor-pointer">
@@ -201,7 +208,7 @@
 
       <!-- Conteúdo -->
       <main class="flex-1 overflow-y-auto p-6">
-        
+
         <!-- Cards de Estatísticas -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <!-- Card Avaliações -->
@@ -211,15 +218,12 @@
                 <i class="fas fa-clipboard-list text-primary-600 text-xl"></i>
               </div>
               <div class="text-right">
-                <div class="text-2xl font-bold text-neutral-800">24</div>
-                <div class="text-sm text-neutral-500">Hoje</div>
+                <div class="text-2xl font-bold text-neutral-800"><?= $aval->SelectQuantidadePorStatus($status); ?></div>
               </div>
             </div>
             <h3 class="font-semibold text-neutral-700 mb-1">Avaliações</h3>
-            <p class="text-sm text-neutral-500">Avaliações pendentes</p>
+            <p class="text-sm text-green-500">Avaliações Aprovadas</p>
             <div class="mt-3 flex items-center text-sm text-green-600">
-              <i class="fas fa-arrow-up mr-1"></i>
-              <span>+12% em relação à semana passada</span>
             </div>
           </div>
 
@@ -235,11 +239,7 @@
               </div>
             </div>
             <h3 class="font-semibold text-neutral-700 mb-1">Pacientes</h3>
-            <p class="text-sm text-neutral-500">Pacientes em tratamento</p>
-            <div class="mt-3 flex items-center text-sm text-green-600">
-              <i class="fas fa-arrow-up mr-1"></i>
-              <span>+8% este mês</span>
-            </div>
+            <p class="text-sm text-green-500">Pacientes Registrados</p>
           </div>
 
           <!-- Card Pedidos -->
@@ -283,7 +283,7 @@
 
         <!-- Gráficos e Tabelas -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          
+
           <!-- Gráfico de Atividade -->
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between mb-6">
@@ -294,7 +294,7 @@
                 <option>Este mês</option>
               </select>
             </div>
-            
+
             <!-- Gráfico Simulado -->
             <div class="bg-neutral-50 rounded-xl p-4 h-64 flex items-center justify-center">
               <div class="text-center">
@@ -314,7 +314,7 @@
                 Novo
               </button>
             </div>
-            
+
             <div class="space-y-4">
               <!-- Paciente 1 -->
               <div class="flex items-center justify-between p-3 hover:bg-neutral-50 rounded-lg">
@@ -384,7 +384,7 @@
               Ver Todos
             </button>
           </div>
-          
+
           <div class="overflow-x-auto">
             <table class="table table-zebra w-full">
               <thead>
@@ -453,16 +453,12 @@
     // Script para menu ativo
     document.addEventListener('DOMContentLoaded', function() {
       const menuItems = document.querySelectorAll('.sidebar-menu-item');
-      
+
       menuItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          // Remove active class from all items
+        item.addEventListener('click', function() {
           menuItems.forEach(i => i.classList.remove('active'));
-          
-          // Add active class to clicked item
           this.classList.add('active');
+          // sem preventDefault()
         });
       });
     });

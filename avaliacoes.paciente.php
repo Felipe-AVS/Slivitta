@@ -275,6 +275,9 @@ include_once("./conexao.php");
                                                 }
                                                 ?>
                                             </td>
+                                            <td> <button class="btn btn-ghost btn-sm text-primary hover:text-primary-600">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

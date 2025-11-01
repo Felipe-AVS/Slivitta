@@ -1,0 +1,10 @@
+-> Fazer funções de visualização de avaliações e pedidos.
+-> Fazer o pedido fazer realmente um pedido.
+--FIM DO CLIENTE--
+
+--INICIO EMPRESA--
+
+->Relação de pacientes
+->Lista completa de pedidos, filtravel por status
+->Faturamento com base nos pedidos
+->Ajustes dashboard inicial - icones, infos e etc

@@ -1,6 +1,9 @@
 <?php
 session_start();
 include_once("./componentes/avaliacao.php");
+include_once("./componentes/pedido.php");
+include_once("./componentes/pedidostatus.php");
+include_once("./componentes/produto.php");
 include_once("./conexao.php");
 ?>
 <!DOCTYPE html>
@@ -214,8 +217,9 @@ include_once("./conexao.php");
               </div>
             </div>
             <h3 class="font-semibold text-neutral-700 mb-1">Minhas Avaliações</h3>
+               <p class="text-sm text-neutral-500">Avaliações Realizadas</p>
             <a href="./avaliacoes.paciente.php">
-              <button class="btn btn-primary btn-sm mt-3 w-full rounded-full">
+              <button class="btn btn-outline btn-primary btn-sm mt-3 w-full rounded-full">
                 Visualizar Avaliações
               </button>
             </a>
@@ -234,9 +238,11 @@ include_once("./conexao.php");
             </div>
             <h3 class="font-semibold text-neutral-700 mb-1">Meus Pedidos</h3>
             <p class="text-sm text-neutral-500">Pedidos efetuados</p>
+            <a href="pedido.paciente.php">
             <button class="btn btn-outline btn-primary btn-sm mt-3 w-full rounded-full">
               Ver Pedidos
             </button>
+            </a>
           </div>
 
           <!-- Card Progresso -->
@@ -260,93 +266,100 @@ include_once("./conexao.php");
           </div>
         </div>
 
-        <!-- Próxima Consulta e Ações Rápidas -->
-        <div class="grid mb-5">
-
-          <!-- Próxima Consulta -->
-
-
-          <!-- Ações Rápidas -->
-          <div class="dashboard-card w-full bg-white rounded-2xl p-6">
-            <h3 class="text-lg font-semibold text-neutral-800 mb-4">Ações Rápidas</h3>
-
-            <div class="grid grid-cols-4 gap-4 w-full">
-              <button class="btn btn-outline flex flex-col h-20 rounded-xl">
-                <i class="fas fa-prescription text-primary-600 text-xl mb-1"></i>
-                <span class="text-xs">Receitas</span>
-              </button>
-
-              <button class="btn btn-outline flex flex-col h-20 rounded-xl">
-                <i class="fas fa-file-medical text-primary-600 text-xl mb-1"></i>
-                <span class="text-xs">Laudos</span>
-              </button>
-
-              <button class="btn btn-outline flex flex-col h-20 rounded-xl">
-                <i class="fas fa-utensils text-primary-600 text-xl mb-1"></i>
-                <span class="text-xs">Dietas</span>
-              </button>
-
-              <button class="btn btn-outline flex flex-col h-20 rounded-xl">
-                <i class="fas fa-dumbbell text-primary-600 text-xl mb-1"></i>
-                <span class="text-xs">Exercícios</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
+       
         <!-- Pedidos Recentes -->
         <div class="dashboard-card bg-white rounded-2xl p-6">
           <div class="flex items-center justify-between mb-6">
             <h3 class="text-lg font-semibold text-neutral-800">Meus Pedidos Recentes</h3>
-            <button class="btn btn-outline btn-primary btn-sm rounded-full">
-              Ver Todos
-            </button>
           </div>
 
-          <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
-              <thead>
-                <tr>
-                  <th class="bg-neutral-50">Pedido</th>
-                  <th class="bg-neutral-50">Produto</th>
-                  <th class="bg-neutral-50">Data</th>
-                  <th class="bg-neutral-50">Status</th>
-                  <th class="bg-neutral-50">Valor</th>
-                  <th class="bg-neutral-50">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#00123</td>
-                  <td>Tirzepatida 5mg</td>
-                  <td>15/01/2024</td>
-                  <td>
-                    <span class="badge badge-success badge-sm">Entregue</span>
-                  </td>
-                  <td>R$ 450,00</td>
-                  <td>
-                    <button class="btn btn-ghost btn-xs">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#00122</td>
-                  <td>Tirzepatida 2.5mg</td>
-                  <td>10/01/2024</td>
-                  <td>
-                    <span class="badge badge-warning badge-sm">Processando</span>
-                  </td>
-                  <td>R$ 380,00</td>
-                  <td>
-                    <button class="btn btn-ghost btn-xs">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+           <?php
+                        $pedidocomp = new Pedido();
+                        $pedidocomp->conn = $conn;
+                        $pedidocomp->idusuario = $_SESSION['idusuario'];
+                        $listaPedido = $pedidocomp->SelectPedidoPorUsuario();
+
+                        if (empty($listaPedido)): ?>
+                            <div class="text-center py-12">
+                                <i class="fas fa-shopping-cart text-4xl text-neutral-300 mb-4"></i>
+                                <h4 class="text-lg font-semibold text-neutral-600 mb-2">Nenhum pedido encontrado</h4>
+                                <p class="text-neutral-500 mb-4">Você ainda não realizou nenhum pedido.</p>
+                                <button onclick="openModal('novoPedido')" class="btn btn-primary">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Fazer Primeiro Pedido
+                                </button>
+                            </div>
+                        <?php else: ?>
+                        <div class="overflow-x-auto">
+                            <table class="table text-2xl p-3">
+                                <thead>
+                                    <tr class="text-center text-black">
+                                        <th>ID</th>
+                                        <th>Produto</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                        <th>Data</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($listaPedido as $lp) {
+                                        $id = $lp['idpedido'];
+                                        $data = $lp['data'];
+                                        $idproduto = $lp['idproduto'];
+                                        $valor = $lp['total'];
+                                        $idstatus = $lp['idpedidostatus'];
+
+                                        $produto = new Produto();
+                                        $produto->conn = $conn;
+                                        $produto->idproduto = $idproduto;
+                                        $produtos = $produto->SelectProduto();
+                                        $nomeProduto = !empty($produtos) ? $produtos[0]['produto'] : "Produto não encontrado";
+                                        $valorproduto = !empty($produtos) ? $produtos[0]['valor'] : "0.00";
+
+                                        $status = new PedidoStatus();
+                                        $status->conn = $conn;
+                                        $status->idpedidostatus = $idstatus;
+                                        $status->CarregarStatus();
+                                        $statusatual = $status->status ?: "Status não encontrado";
+
+                                        // Definir cor baseada no status
+                                        $statusCor = "bg-blue-100 text-blue-800";
+                                        if (strpos(strtolower($statusatual), 'entregue') !== false) {
+                                            $statusCor = "bg-green-100 text-green-800";
+                                        } elseif (strpos(strtolower($statusatual), 'cancel') !== false) {
+                                            $statusCor = "bg-red-100 text-red-800";
+                                        } elseif (strpos(strtolower($statusatual), 'pendente') !== false) {
+                                            $statusCor = "bg-orange-100 text-orange-800";
+                                        }
+                                    ?>
+                                        <tr class="text-center">
+                                            <td class="font-semibold">#<?=$id;?></td>
+                                            <td><?=$nomeProduto;?></td>
+                                            <td>R$ <?=number_format($valorproduto, 2, ',', '.');?></td>
+                                            <td>
+                                                <span class="px-2 py-1 rounded-full text-xs font-medium <?=$statusCor;?>">
+                                                    <?=$statusatual;?>
+                                                </span>
+                                            </td>
+                                            <td><?=date('d/m/Y',strtotime($data));?></td>
+                                            <td>
+                                                <div class="flex justify-center gap-2">
+                                                    <button class="btn btn-ghost btn-sm text-primary hover:text-primary-600">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-ghost btn-sm text-green-600 hover:text-green-700">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php endif; ?>
         </div>
 
       </main>

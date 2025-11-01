@@ -29,23 +29,26 @@ class Avaliacao
     public function SelectAvaliacao()
     {
         $sql = "SELECT
-                    idavaliacao,
-                    idusuario,
-                    diabetes,
-                    pressaoalta,
-                    colesterol,
-                    problemasCardiacos,
-                    frequenciaAtividadeFisica,
-                    alimentacao,
-                    horasSono,
-                    fuma,
-                    medicamentos,
-                    alergias,
-                    cirurgias,
-                    principalObjetivo,
-                    metaPeso,
-                    outrosTratamentos
-                FROM avaliacao
+                    a.idavaliacao,
+                    a.idusuario,
+                    u.nome as nomepaciente,
+                    a.diabetes,
+                    a.pressaoalta,
+                    a.colesterol,
+                    a.problemascardiacos,
+                    a.frequenciaatividadefisica,
+                    a.alimentacao,
+                    a.horassono,
+                    a.fuma,
+                    a.medicamentos,
+                    a.alergias,
+                    a.cirurgias,
+                    a.principalobjetivo,
+                    a.metapeso,
+                    a.outrostratamentos,
+                    a.dataavaliacao
+                FROM avaliacao a
+                INNER JOIN usuario u ON u.idusuario = a.idusuario
                 WHERE 1=1";
 
         // Array para armazenar os parâmetros
@@ -322,4 +325,74 @@ class Avaliacao
             return 0; // Retorna 0 em caso de erro
         }
     }
+
+    public function SelectQuantidadeAvaliacao()
+    {
+        $sql = "SELECT COUNT(*) AS total FROM avaliacao";
+        $result = mysqli_query($this->conn, $sql);
+
+        if ($result && $row = mysqli_fetch_assoc($result)) {
+            return (int)$row['total'];
+        } else {
+            return 0;
+        }
+    }
+
+    // 🔹 Retorna a quantidade de avaliações por status (0 = pendente, 1 = aprovada, 2 = cancelada)
+    public function SelectQuantidadePorStatus($status)
+    {
+        $sql = "SELECT COUNT(*) AS total FROM avaliacao WHERE statusavaliacao = ?";
+        $stmt = mysqli_prepare($this->conn, $sql);
+
+        if (!$stmt) {
+            return 0;
+        }
+
+        mysqli_stmt_bind_param($stmt, "i", $status);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($result && $row = mysqli_fetch_assoc($result)) {
+            mysqli_stmt_close($stmt);
+            return (int)$row['total'];
+        }
+
+        mysqli_stmt_close($stmt);
+        return 0;
+    }
+
+    // 🔹 Retorna as avaliações por status (usado para listar Pendentes / Aprovadas)
+    public function SelectAvaliacaoPorStatus($status)
+    {
+        $sql = "SELECT 
+                    a.idavaliacao,
+                    a.idusuario,
+                    a.statusavaliacao,
+                    a.dataavaliacao,
+                    u.nome AS nomepaciente
+                FROM avaliacao a
+                LEFT JOIN usuario u ON a.idusuario = u.idusuario
+                WHERE a.statusavaliacao = ?
+                ORDER BY a.dataavaliacao DESC";
+
+        $stmt = mysqli_prepare($this->conn, $sql);
+
+        if (!$stmt) {
+            return [];
+        }
+
+        mysqli_stmt_bind_param($stmt, "i", $status);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        $avaliacoes = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $avaliacoes[] = $row;
+        }
+
+        mysqli_stmt_close($stmt);
+
+        return $avaliacoes;
+    }
+    
 }
