@@ -234,7 +234,8 @@ $status = 2;
                 <i class="fas fa-user-friends text-primary-600 text-xl"></i>
               </div>
               <div class="text-right">
-                <div class="text-2xl font-bold text-neutral-800">156</div>
+                
+              <div class="text-2xl font-bold text-neutral-800">156</div>
                 <div class="text-sm text-neutral-500">Ativos</div>
               </div>
             </div>

@@ -66,6 +66,8 @@ class Pedido
         return $pedidos;
     }
 
+    
+
     // Insere ou atualiza pedido
     public function InsertPedido()
     {

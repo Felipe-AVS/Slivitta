@@ -102,7 +102,7 @@
 <body class="leading-relaxed">
   <!-- Layout Principal -->
   <div class="flex h-screen bg-neutral-50">
-    
+
     <!-- Sidebar -->
     <div class="sidebar w-64 flex-shrink-0">
       <div class="p-6">
@@ -119,31 +119,32 @@
 
         <!-- Menu de Navegação -->
         <nav class="space-y-2">
-          <a href="dashboard.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+          <a href="./dashboard.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-tachometer-alt w-5 text-center"></i>
             <span>Visão Geral</span>
           </a>
-          
-          <a href="avaliacoes.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.avaliacoes.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-clipboard-list w-5 text-center"></i>
             <span>Avaliações</span>
           </a>
-          
-          <a href="pacientes.html" class="sidebar-menu-item active flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.pacientes.php" class="sidebar-menu-item active flex items-center space-x-3 p-3">
             <i class="fas fa-user-friends w-5 text-center"></i>
             <span>Pacientes</span>
           </a>
-          
-          <a href="pedidos.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.pedidos.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-shopping-cart w-5 text-center"></i>
             <span>Pedidos</span>
           </a>
-          
-          <a href="faturamento.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+
+          <a href="./dashboard.faturamento.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-chart-line w-5 text-center"></i>
             <span>Faturamento</span>
           </a>
         </nav>
+
 
         <!-- Separador -->
         <div class="my-6 border-t border-neutral-200"></div>
@@ -154,7 +155,7 @@
             <i class="fas fa-cog w-5 text-center"></i>
             <span>Configurações</span>
           </a>
-          
+
           <a href="#" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-question-circle w-5 text-center"></i>
             <span>Ajuda</span>
@@ -165,7 +166,7 @@
 
     <!-- Conteúdo Principal -->
     <div class="flex-1 flex flex-col overflow-hidden">
-      
+
       <!-- Header -->
       <header class="bg-white border-b border-neutral-200">
         <div class="flex items-center justify-between p-6">
@@ -173,31 +174,19 @@
             <h2 class="text-2xl font-bold text-neutral-800">Pacientes</h2>
             <div class="text-sm text-neutral-500">Gerencie todos os pacientes cadastrados</div>
           </div>
-          
+
           <div class="flex items-center space-x-4">
             <!-- Filtros e Busca -->
             <div class="flex space-x-2">
-              <select class="select select-bordered select-sm">
-                <option>Todos os status</option>
-                <option>Ativos</option>
-                <option>Inativos</option>
-                <option>Em tratamento</option>
-              </select>
-              <input type="text" placeholder="Buscar paciente..." class="input input-bordered input-sm">
+              
             </div>
-            
-            <!-- Botão Novo Paciente -->
-            <button class="btn btn-primary btn-sm rounded-full" onclick="document.getElementById('modal-novo-paciente').showModal()">
-              <i class="fas fa-plus mr-2"></i>
-              Novo Paciente
-            </button>
-            
+
             <!-- Notificações -->
             <button class="btn btn-ghost btn-circle relative">
               <i class="fas fa-bell text-neutral-600"></i>
               <span class="absolute -top-1 -right-1 w-3 h-3 bg-primary-500 rounded-full"></span>
             </button>
-            
+
             <!-- Perfil -->
             <div class="dropdown dropdown-end">
               <div tabindex="0" class="flex items-center space-x-3 cursor-pointer">
@@ -218,14 +207,20 @@
 
       <!-- Conteúdo -->
       <main class="flex-1 overflow-y-auto p-6">
-        
+
+        <?php
+        include_once("conexao.php");
+        include_once("./componentes/usuario.php");
+        $user = new Usuario();
+        $user->conn = $conn;
+        ?>
         <!-- Cards de Resumo -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <!-- Total de Pacientes -->
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-2xl font-bold text-neutral-800">156</div>
+                <div class="text-2xl font-bold text-neutral-800"><?= $user->SelectPacientesTotal() ?></div>
                 <div class="text-sm text-neutral-500">Total</div>
               </div>
               <div class="p-3 bg-primary-100 rounded-xl">
@@ -234,28 +229,15 @@
             </div>
           </div>
 
-          <!-- Ativos -->
-          <div class="dashboard-card bg-white rounded-2xl p-6">
-            <div class="flex items-center justify-between">
-              <div>
-                <div class="text-2xl font-bold text-green-600">142</div>
-                <div class="text-sm text-neutral-500">Ativos</div>
-              </div>
-              <div class="p-3 bg-green-100 rounded-xl">
-                <i class="fas fa-user-check text-green-600 text-xl"></i>
-              </div>
-            </div>
-          </div>
-
           <!-- Em Tratamento -->
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-2xl font-bold text-blue-600">89</div>
-                <div class="text-sm text-neutral-500">Em Tratamento</div>
+                <div class="text-2xl font-bold text-pink-600"><?= $user->SelectPacientesTotalGenero("F") ?></div>
+                <div class="text-sm text-pink-500">Mulheres</div>
               </div>
-              <div class="p-3 bg-blue-100 rounded-xl">
-                <i class="fas fa-heartbeat text-blue-600 text-xl"></i>
+              <div class="p-3 bg-pink-100 rounded-xl">
+                <i class="fas fa-heartbeat text-pink-600 text-xl"></i>
               </div>
             </div>
           </div>
@@ -264,11 +246,11 @@
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-2xl font-bold text-orange-500">24</div>
-                <div class="text-sm text-neutral-500">Novos Este Mês</div>
+                <div class="text-2xl font-bold text-blue-500"><?= $user->SelectPacientesTotalGenero("M") ?></div>
+                <div class="text-sm text-blue-500">Homens</div>
               </div>
-              <div class="p-3 bg-orange-100 rounded-xl">
-                <i class="fas fa-user-plus text-orange-500 text-xl"></i>
+              <div class="p-3 bg-blue-100 rounded-xl">
+                <i class="fas fa-male text-blue-500 text-xl"></i>
               </div>
             </div>
           </div>
@@ -278,260 +260,61 @@
         <div class="dashboard-card bg-white rounded-2xl p-6">
           <div class="flex items-center justify-between mb-6">
             <h3 class="text-lg font-semibold text-neutral-800">Todos os Pacientes</h3>
-            <div class="text-sm text-neutral-500">156 pacientes cadastrados</div>
           </div>
-          
+
           <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
+            <table class="table  w-full">
               <thead>
-                <tr>
-                  <th class="bg-neutral-50">Paciente</th>
-                  <th class="bg-neutral-50">Idade</th>
-                  <th class="bg-neutral-50">IMC</th>
-                  <th class="bg-neutral-50">Peso Atual</th>
-                  <th class="bg-neutral-50">Status</th>
-                  <th class="bg-neutral-50">Última Consulta</th>
-                  <th class="bg-neutral-50">Ações</th>
+                <tr class="text-center text-black">
+                  <th>ID</th>
+                  <th>Paciente</th>
+                  <th>Peso</th>
+                  <th>Altura</th>
+                  <th>IMC</th>
+                  <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- Paciente 1 -->
-                <tr class="patient-row">
-                  <td>
-                    <div class="flex items-center space-x-3">
-                      <div class="avatar">
-                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                          <span class="text-primary-600 font-semibold">MP</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="font-bold">Maria Pereira</div>
-                        <div class="text-sm text-neutral-500">maria.pereira@email.com</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>32 anos</td>
-                  <td>31.2</td>
-                  <td>84 kg</td>
-                  <td>
-                    <span class="badge badge-success badge-sm">Ativo</span>
-                  </td>
-                  <td>15/01/2024</td>
-                  <td>
-                    <div class="flex space-x-1">
+                <?php
+                $listapaciente = $user->SelectPacientes();
+                while ($lp = mysqli_fetch_array($listapaciente, MYSQLI_ASSOC)) {
+
+                  $id = $lp['idusuario'];
+                  $nome = $lp['nome'];
+                  $peso = $lp['peso'];
+                  $altura = $lp['altura'];
+                  $imc = $lp['peso'] / ($lp['altura'] * $lp['altura']);
+                ?>
+                <tr class="text-center">
+                  <td><?= $id ?></td>
+                  <td><?= $nome ?></td>
+                  <td><?= $peso ?></td>
+                  <td><?= $altura ?></td>
+                  <td><?= preg_replace('/^0\.0*/', '', (string)round($imc, 4)) ?></td>
+
+                  <td class="justify-content-center">
+                    <div class="space-x-1">
                       <button class="btn btn-ghost btn-xs" onclick="editarPaciente(1)">
                         <i class="fas fa-edit"></i>
-                      </button>
-                      <button class="btn btn-ghost btn-xs">
-                        <i class="fas fa-eye"></i>
                       </button>
                       <button class="btn btn-ghost btn-xs text-error" onclick="excluirPaciente(1)">
                         <i class="fas fa-trash"></i>
                       </button>
                     </div>
                   </td>
-                </tr>
-
-                <!-- Paciente 2 -->
-                <tr class="patient-row">
-                  <td>
-                    <div class="flex items-center space-x-3">
-                      <div class="avatar">
-                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                          <span class="text-primary-600 font-semibold">JS</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="font-bold">João Silva</div>
-                        <div class="text-sm text-neutral-500">joao.silva@email.com</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>45 anos</td>
-                  <td>29.8</td>
-                  <td>92 kg</td>
-                  <td>
-                    <span class="badge badge-success badge-sm">Ativo</span>
-                  </td>
-                  <td>14/01/2024</td>
-                  <td>
-                    <div class="flex space-x-1">
-                      <button class="btn btn-ghost btn-xs" onclick="editarPaciente(2)">
-                        <i class="fas fa-edit"></i>
-                      </button>
-                      <button class="btn btn-ghost btn-xs">
-                        <i class="fas fa-eye"></i>
-                      </button>
-                      <button class="btn btn-ghost btn-xs text-error" onclick="excluirPaciente(2)">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <!-- Paciente 3 -->
-                <tr class="patient-row">
-                  <td>
-                    <div class="flex items-center space-x-3">
-                      <div class="avatar">
-                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                          <span class="text-primary-600 font-semibold">AC</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="font-bold">Ana Costa</div>
-                        <div class="text-sm text-neutral-500">ana.costa@email.com</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>28 anos</td>
-                  <td>32.1</td>
-                  <td>76 kg</td>
-                  <td>
-                    <span class="badge badge-warning badge-sm">Inativo</span>
-                  </td>
-                  <td>10/01/2024</td>
-                  <td>
-                    <div class="flex space-x-1">
-                      <button class="btn btn-ghost btn-xs" onclick="editarPaciente(3)">
-                        <i class="fas fa-edit"></i>
-                      </button>
-                      <button class="btn btn-ghost btn-xs">
-                        <i class="fas fa-eye"></i>
-                      </button>
-                      <button class="btn btn-ghost btn-xs text-error" onclick="excluirPaciente(3)">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <!-- Paciente 4 -->
-                <tr class="patient-row">
-                  <td>
-                    <div class="flex items-center space-x-3">
-                      <div class="avatar">
-                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                          <span class="text-primary-600 font-semibold">CS</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="font-bold">Carlos Santos</div>
-                        <div class="text-sm text-neutral-500">carlos.santos@email.com</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>38 anos</td>
-                  <td>30.5</td>
-                  <td>88 kg</td>
-                  <td>
-                    <span class="badge badge-success badge-sm">Ativo</span>
-                  </td>
-                  <td>12/01/2024</td>
-                  <td>
-                    <div class="flex space-x-1">
-                      <button class="btn btn-ghost btn-xs" onclick="editarPaciente(4)">
-                        <i class="fas fa-edit"></i>
-                      </button>
-                      <button class="btn btn-ghost btn-xs">
-                        <i class="fas fa-eye"></i>
-                      </button>
-                      <button class="btn btn-ghost btn-xs text-error" onclick="excluirPaciente(4)">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                  </tr>
+                <?php
+                }
+                ?>
               </tbody>
             </table>
           </div>
 
-          <!-- Paginação -->
-          <div class="flex justify-between items-center mt-6">
-            <div class="text-sm text-neutral-500">
-              Mostrando 1-4 de 156 pacientes
-            </div>
-            <div class="join">
-              <button class="join-item btn btn-sm">«</button>
-              <button class="join-item btn btn-sm btn-active">1</button>
-              <button class="join-item btn btn-sm">2</button>
-              <button class="join-item btn btn-sm">3</button>
-              <button class="join-item btn btn-sm">»</button>
-            </div>
-          </div>
         </div>
 
       </main>
     </div>
   </div>
-
-  <!-- Modal Novo Paciente -->
-  <dialog id="modal-novo-paciente" class="modal">
-    <div class="modal-box max-w-4xl">
-      <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-      </form>
-      <h3 class="font-bold text-lg mb-6">Cadastrar Novo Paciente</h3>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Nome Completo</span>
-          </label>
-          <input type="text" class="input input-bordered" placeholder="Digite o nome completo">
-        </div>
-        
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">E-mail</span>
-          </label>
-          <input type="email" class="input input-bordered" placeholder="email@exemplo.com">
-        </div>
-        
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Telefone</span>
-          </label>
-          <input type="tel" class="input input-bordered" placeholder="(11) 99999-9999">
-        </div>
-        
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Data de Nascimento</span>
-          </label>
-          <input type="date" class="input input-bordered">
-        </div>
-        
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Peso Atual (kg)</span>
-          </label>
-          <input type="number" class="input input-bordered" placeholder="Ex: 75.5">
-        </div>
-        
-        <div class="form-control">
-          <label class="label">
-            <span class="label-text">Altura (cm)</span>
-          </label>
-          <input type="number" class="input input-bordered" placeholder="Ex: 170">
-        </div>
-        
-        <div class="form-control md:col-span-2">
-          <label class="label">
-            <span class="label-text">Condições de Saúde</span>
-          </label>
-          <textarea class="textarea textarea-bordered h-24" placeholder="Informe condições pré-existentes, alergias, etc."></textarea>
-        </div>
-      </div>
-      
-      <div class="modal-action">
-        <form method="dialog">
-          <button class="btn">Cancelar</button>
-        </form>
-        <button class="btn btn-primary">Cadastrar Paciente</button>
-      </div>
-    </div>
-  </dialog>
 
   <!-- Modal Editar Paciente -->
   <dialog id="modal-editar-paciente" class="modal">
@@ -540,7 +323,7 @@
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
       <h3 class="font-bold text-lg mb-6">Editar Paciente</h3>
-      
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="form-control">
           <label class="label">
@@ -548,49 +331,49 @@
           </label>
           <input type="text" class="input input-bordered" value="Maria Pereira">
         </div>
-        
+
         <div class="form-control">
           <label class="label">
             <span class="label-text">E-mail</span>
           </label>
           <input type="email" class="input input-bordered" value="maria.pereira@email.com">
         </div>
-        
+
         <div class="form-control">
           <label class="label">
             <span class="label-text">Telefone</span>
           </label>
           <input type="tel" class="input input-bordered" value="(11) 99999-9999">
         </div>
-        
+
         <div class="form-control">
           <label class="label">
             <span class="label-text">Data de Nascimento</span>
           </label>
           <input type="date" class="input input-bordered" value="1992-05-15">
         </div>
-        
+
         <div class="form-control">
           <label class="label">
             <span class="label-text">Peso Atual (kg)</span>
           </label>
           <input type="number" class="input input-bordered" value="84">
         </div>
-        
+
         <div class="form-control">
           <label class="label">
             <span class="label-text">Altura (cm)</span>
           </label>
           <input type="number" class="input input-bordered" value="164">
         </div>
-        
+
         <div class="form-control md:col-span-2">
           <label class="label">
             <span class="label-text">Condições de Saúde</span>
           </label>
           <textarea class="textarea textarea-bordered h-24">Nenhuma condição pré-existente relatada.</textarea>
         </div>
-        
+
         <div class="form-control">
           <label class="label">
             <span class="label-text">Status</span>
@@ -602,7 +385,7 @@
           </select>
         </div>
       </div>
-      
+
       <div class="modal-action">
         <form method="dialog">
           <button class="btn">Cancelar</button>
@@ -626,21 +409,7 @@
     }
 
     // Script para menu ativo
-    document.addEventListener('DOMContentLoaded', function() {
-      const menuItems = document.querySelectorAll('.sidebar-menu-item');
-      
-      menuItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          // Remove active class from all items
-          menuItems.forEach(i => i.classList.remove('active'));
-          
-          // Add active class to clicked item
-          this.classList.add('active');
-        });
-      });
-    });
+    
   </script>
 
 </body>

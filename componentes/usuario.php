@@ -322,4 +322,206 @@ class Usuario
 
         return false;
     }
+
+    public function SelectPacientes()
+{
+    $sql = "SELECT 
+                idusuario,
+                idcategoria,
+                nome,
+                cpf,
+                celular,
+                endereco,
+                numero,
+                bairro,
+                cidade,
+                senha,
+                datanascimento,
+                genero,
+                peso,
+                altura
+            FROM usuario
+            WHERE idcategoria = 1"; // Apenas pacientes
+
+    $result = mysqli_query($this->conn, $sql);
+    return $result;
+}
+
+ public function SelectPacientesTotal()
+{
+    $sql = "SELECT 
+                COUNT(idusuario) as total
+            FROM usuario
+            WHERE idcategoria = 1"; // Apenas pacientes
+
+    $result = mysqli_query($this->conn, $sql);
+
+    if (!$result) {
+        return false;
+    }
+
+    $pacientes = "";
+
+    while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+        $pacientes = $row['total'];
+    }
+
+    return $pacientes;
+}
+
+
+public function SelectPacientesTotalGenero($genero)
+{
+    $sql = "SELECT 
+                COUNT(idusuario) as total
+            FROM usuario
+            WHERE idcategoria = 1
+            AND genero = '$genero'
+            "; // Apenas pacientes
+
+    $result = mysqli_query($this->conn, $sql);
+
+    if (!$result) {
+        return 0;
+    }
+
+    $pacientes = "";
+
+    while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+        $pacientes = $row['total'];
+    }
+
+    return $pacientes;
+}
+
+
+public function SelectPacienteById()
+{
+    if ($this->idusuario <= 0) {
+        return false;
+    }
+
+    $sql = "SELECT 
+                idusuario,
+                idcategoria,
+                nome,
+                cpf,
+                celular,
+                endereco,
+                numero,
+                bairro,
+                cidade,
+                senha,
+                datanascimento,
+                genero,
+                peso,
+                altura
+            FROM usuario
+            WHERE idusuario = ? AND idcategoria = 1";
+
+    $stmt = mysqli_prepare($this->conn, $sql);
+
+    if (!$stmt) {
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $this->idusuario);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($result)) {
+        $this->idcategoria = $row['idcategoria'];
+        $this->nome = $row['nome'];
+        $this->cpf = $row['cpf'];
+        $this->celular = $row['celular'];
+        $this->endereco = $row['endereco'];
+        $this->numero = $row['numero'];
+        $this->bairro = $row['bairro'];
+        $this->cidade = $row['cidade'];
+        $this->senha = $row['senha'];
+        $this->datanascimento = $row['datanascimento'];
+        $this->genero = $row['genero'];
+        $this->peso = $row['peso'];
+        $this->altura = $row['altura'];
+
+        mysqli_stmt_close($stmt);
+        return true;
+    }
+
+    mysqli_stmt_close($stmt);
+    return false;
+}
+
+public function UpdatePaciente()
+{
+    if ($this->idusuario <= 0 || $this->idcategoria != 1) {
+        return false;
+    }
+
+    $sql = "UPDATE usuario SET
+                nome = ?,
+                cpf = ?,
+                celular = ?,
+                endereco = ?,
+                numero = ?,
+                bairro = ?,
+                cidade = ?,
+                senha = ?,
+                datanascimento = ?,
+                genero = ?,
+                peso = ?,
+                altura = ?
+            WHERE idusuario = ? AND idcategoria = 1";
+
+    $stmt = mysqli_prepare($this->conn, $sql);
+
+    if (!$stmt) {
+        return false;
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "sssssssssssii",
+        $this->nome,
+        $this->cpf,
+        $this->celular,
+        $this->endereco,
+        $this->numero,
+        $this->bairro,
+        $this->cidade,
+        $this->senha,
+        $this->datanascimento,
+        $this->genero,
+        $this->peso,
+        $this->altura,
+        $this->idusuario
+    );
+
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+    return $result;
+}
+
+public function DeletePaciente()
+{
+    if ($this->idusuario <= 0) {
+        return false;
+    }
+
+    $sql = "DELETE FROM usuario WHERE idusuario = ? AND idcategoria = 1";
+
+    $stmt = mysqli_prepare($this->conn, $sql);
+
+    if (!$stmt) {
+        return false;
+    }
+
+    mysqli_stmt_bind_param($stmt, "i", $this->idusuario);
+    $result = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+
+    return $result;
+}
+
+
 }

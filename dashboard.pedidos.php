@@ -1,3 +1,37 @@
+<?php
+session_start();
+include_once("./componentes/pedido.php"); // Inclui a classe Pedido
+include_once("conexao.php");
+
+// Instancia a classe Pedido
+$pedidoComp = new Pedido();
+$pedidoComp->conn = $conn;
+
+// Filtros
+$status_filter = $_GET['status'] ?? '';
+$search_filter = $_GET['search'] ?? '';
+
+// Buscar pedidos
+$pedidos = $pedidoComp->SelectPedido();
+
+// Estatísticas
+$total_pedidos = count($pedidos);
+$preparando = 0;
+$prontos = 0;
+$entregues = 0;
+
+foreach ($pedidos as $pedido) {
+    switch ($pedido['idpedidostatus']) {
+        case 1: $preparando++; break;
+        case 2: $prontos++; break;
+        case 3: $entregues++; break;
+    }
+}
+
+// Fechar conexão
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -25,7 +59,7 @@
               200: '#f0ede4',
               300: '#e3dece',
               400: '#d4c5a3',
-              500: '#d4a960', // dourado base
+              500: '#d4a960',
               600: '#b28b4f',
               700: '#8e6e3e',
               800: '#5c4a29',
@@ -123,27 +157,27 @@
 
         <!-- Menu de Navegação -->
         <nav class="space-y-2">
-          <a href="dashboard.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+          <a href="dashboard.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-tachometer-alt w-5 text-center"></i>
             <span>Visão Geral</span>
           </a>
           
-          <a href="avaliacoes.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+          <a href="avaliacoes.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-clipboard-list w-5 text-center"></i>
             <span>Avaliações</span>
           </a>
           
-          <a href="pacientes.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+          <a href="pacientes.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-user-friends w-5 text-center"></i>
             <span>Pacientes</span>
           </a>
           
-          <a href="pedidos.html" class="sidebar-menu-item active flex items-center space-x-3 p-3">
+          <a href="pedidos.php" class="sidebar-menu-item active flex items-center space-x-3 p-3">
             <i class="fas fa-shopping-cart w-5 text-center"></i>
             <span>Pedidos</span>
           </a>
           
-          <a href="faturamento.html" class="sidebar-menu-item flex items-center space-x-3 p-3">
+          <a href="faturamento.php" class="sidebar-menu-item flex items-center space-x-3 p-3">
             <i class="fas fa-chart-line w-5 text-center"></i>
             <span>Faturamento</span>
           </a>
@@ -180,15 +214,7 @@
           
           <div class="flex items-center space-x-4">
             <!-- Filtros -->
-            <div class="flex space-x-2">
-              <select class="select select-bordered select-sm">
-                <option>Todos os status</option>
-                <option>Preparando</option>
-                <option>Pronto</option>
-                <option>Entregue</option>
-              </select>
-              <input type="text" placeholder="Buscar pedido..." class="input input-bordered input-sm">
-            </div>
+           
             
             <!-- Notificações -->
             <button class="btn btn-ghost btn-circle relative">
@@ -223,7 +249,7 @@
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-2xl font-bold text-neutral-800">42</div>
+                <div class="text-2xl font-bold text-neutral-800"><?= $total_pedidos ?></div>
                 <div class="text-sm text-neutral-500">Total</div>
               </div>
               <div class="p-3 bg-primary-100 rounded-xl">
@@ -236,7 +262,7 @@
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-2xl font-bold text-orange-500">18</div>
+                <div class="text-2xl font-bold text-orange-500"><?= $preparando ?></div>
                 <div class="text-sm text-neutral-500">Preparando</div>
               </div>
               <div class="p-3 bg-orange-100 rounded-xl">
@@ -249,7 +275,7 @@
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-2xl font-bold text-green-600">12</div>
+                <div class="text-2xl font-bold text-green-600"><?= $prontos ?></div>
                 <div class="text-sm text-neutral-500">Prontos</div>
               </div>
               <div class="p-3 bg-green-100 rounded-xl">
@@ -262,7 +288,7 @@
           <div class="dashboard-card bg-white rounded-2xl p-6">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-2xl font-bold text-blue-600">12</div>
+                <div class="text-2xl font-bold text-blue-600"><?= $entregues ?></div>
                 <div class="text-sm text-neutral-500">Entregues</div>
               </div>
               <div class="p-3 bg-blue-100 rounded-xl">
@@ -276,203 +302,119 @@
         <div class="dashboard-card bg-white rounded-2xl p-6">
           <div class="flex items-center justify-between mb-6">
             <h3 class="text-lg font-semibold text-neutral-800">Todos os Pedidos</h3>
-            <div class="text-sm text-neutral-500">42 pedidos realizados</div>
+            <div class="text-sm text-neutral-500"><?= $total_pedidos ?> pedidos realizados</div>
           </div>
           
           <div class="space-y-4">
-            <!-- Pedido 1 - Preparando -->
-            <div class="order-row status-preparing bg-white border rounded-lg p-4">
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
-                      <span class="text-primary-600 font-semibold">MP</span>
+            <?php if (empty($pedidos)): ?>
+              <div class="text-center py-8">
+                <i class="fas fa-shopping-cart text-4xl text-neutral-300 mb-4"></i>
+                <p class="text-neutral-500">Nenhum pedido encontrado</p>
+              </div>
+            <?php else: ?>
+              <?php foreach ($pedidos as $pedido): ?>
+                <?php
+                // Determina classe CSS baseada no status
+                $status_class = '';
+                $status_badge = '';
+                $status_text = '';
+                
+                switch ($pedido['idpedidostatus']) {
+                    case 1:
+                        $status_class = 'status-preparing';
+                        $status_badge = 'badge-warning';
+                        $status_text = 'Preparando';
+                        break;
+                    case 2:
+                        $status_class = 'status-ready';
+                        $status_badge = 'badge-success';
+                        $status_text = 'Pronto';
+                        break;
+                    case 3:
+                        $status_class = 'status-delivered';
+                        $status_badge = 'badge-info';
+                        $status_text = 'Entregue';
+                        break;
+                    default:
+                        $status_class = 'status-preparing';
+                        $status_badge = 'badge-warning';
+                        $status_text = 'Preparando';
+                }
+                
+                // Formata data
+                $data_formatada = date('d/m/Y', strtotime($pedido['data']));
+                ?>
+                
+                <div class="order-row <?= $status_class ?> bg-white border rounded-lg p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-3">
+                      <div class="avatar">
+                        <div class="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
+                          <span class="text-primary-600 font-semibold">
+                            <?= substr($pedido['nome_cliente'] ?? 'CL', 0, 2) ?>
+                          </span>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="font-semibold text-neutral-800">
+                          <?= htmlspecialchars($pedido['nome_cliente'] ?? 'Cliente') ?>
+                        </div>
+                        <div class="text-sm text-neutral-500">Pedido #SLV-<?= str_pad($pedido['idpedido'], 3, '0', STR_PAD_LEFT) ?></div>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="badge <?= $status_badge ?> badge-lg"><?= $status_text ?></div>
+                      <div class="text-xs text-neutral-500 mt-1"><?= $data_formatada ?></div>
                     </div>
                   </div>
-                  <div>
-                    <div class="font-semibold text-neutral-800">Maria Pereira</div>
-                    <div class="text-sm text-neutral-500">Pedido #SLV-001</div>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="badge badge-warning badge-lg">Preparando</div>
-                  <div class="text-xs text-neutral-500 mt-1">15/01/2024</div>
-                </div>
-              </div>
-              
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div>
-                  <div class="text-sm text-neutral-500">Produto</div>
-                  <div class="font-semibold">Tirzepatida 5mg</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Quantidade</div>
-                  <div class="font-semibold">1 caixa (4 semanas)</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Valor</div>
-                  <div class="font-semibold">R$ 450,00</div>
-                </div>
-              </div>
-              
-              <div class="flex justify-end space-x-2">
-                <button class="btn btn-primary btn-sm rounded-full" onclick="atualizarStatus(1, 'ready')">
-                  <i class="fas fa-check mr-2"></i>
-                  Marcar como Pronto
-                </button>
-                <button class="btn btn-ghost btn-sm rounded-full">
-                  <i class="fas fa-eye mr-2"></i>
-                  Ver Detalhes
-                </button>
-              </div>
-            </div>
-
-            <!-- Pedido 2 - Pronto -->
-            <div class="order-row status-ready bg-white border rounded-lg p-4">
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
-                      <span class="text-primary-600 font-semibold">JS</span>
+                  
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <div class="text-sm text-neutral-500">Produto</div>
+                      <div class="font-semibold"><?= htmlspecialchars($pedido['nome_produto'] ?? 'Produto') ?></div>
+                    </div>
+                    <div>
+                      <div class="text-sm text-neutral-500">Quantidade</div>
+                      <div class="font-semibold">1 unidade</div>
+                    </div>
+                    <div>
+                      <div class="text-sm text-neutral-500">Valor</div>
+                      <div class="font-semibold">R$ <?= number_format($pedido['total'], 2, ',', '.') ?></div>
                     </div>
                   </div>
-                  <div>
-                    <div class="font-semibold text-neutral-800">João Silva</div>
-                    <div class="text-sm text-neutral-500">Pedido #SLV-002</div>
+                  
+                  <div class="flex justify-end space-x-2">
+                    <?php if ($pedido['idpedidostatus'] == 1): ?>
+                      <button class="btn btn-primary btn-sm rounded-full" onclick="atualizarStatus(<?= $pedido['idpedido'] ?>, 2)">
+                        <i class="fas fa-check mr-2"></i>
+                        Marcar como Pronto
+                      </button>
+                    <?php elseif ($pedido['idpedidostatus'] == 2): ?>
+                      <button class="btn btn-primary btn-sm rounded-full" onclick="atualizarStatus(<?= $pedido['idpedido'] ?>, 3)">
+                        <i class="fas fa-truck mr-2"></i>
+                        Marcar como Entregue
+                      </button>
+                    <?php else: ?>
+                      <button class="btn btn-success btn-sm rounded-full" disabled>
+                        <i class="fas fa-check-circle mr-2"></i>
+                        Entregue
+                      </button>
+                    <?php endif; ?>
+                    
+                    <button class="btn btn-ghost btn-sm rounded-full" onclick="verDetalhes(<?= $pedido['idpedido'] ?>)">
+                      <i class="fas fa-eye mr-2"></i>
+                      Ver Detalhes
+                    </button>
                   </div>
                 </div>
-                <div class="text-right">
-                  <div class="badge badge-success badge-lg">Pronto</div>
-                  <div class="text-xs text-neutral-500 mt-1">14/01/2024</div>
-                </div>
-              </div>
-              
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div>
-                  <div class="text-sm text-neutral-500">Produto</div>
-                  <div class="font-semibold">Tirzepatida 2.5mg</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Quantidade</div>
-                  <div class="font-semibold">1 caixa (4 semanas)</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Valor</div>
-                  <div class="font-semibold">R$ 380,00</div>
-                </div>
-              </div>
-              
-              <div class="flex justify-end space-x-2">
-                <button class="btn btn-primary btn-sm rounded-full" onclick="atualizarStatus(2, 'delivered')">
-                  <i class="fas fa-truck mr-2"></i>
-                  Marcar como Entregue
-                </button>
-                <button class="btn btn-ghost btn-sm rounded-full">
-                  <i class="fas fa-eye mr-2"></i>
-                  Ver Detalhes
-                </button>
-              </div>
-            </div>
-
-            <!-- Pedido 3 - Entregue -->
-            <div class="order-row status-delivered bg-white border rounded-lg p-4">
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
-                      <span class="text-primary-600 font-semibold">AC</span>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="font-semibold text-neutral-800">Ana Costa</div>
-                    <div class="text-sm text-neutral-500">Pedido #SLV-003</div>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="badge badge-info badge-lg">Entregue</div>
-                  <div class="text-xs text-neutral-500 mt-1">13/01/2024</div>
-                </div>
-              </div>
-              
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div>
-                  <div class="text-sm text-neutral-500">Produto</div>
-                  <div class="font-semibold">Tirzepatida 5mg</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Quantidade</div>
-                  <div class="font-semibold">1 caixa (4 semanas)</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Valor</div>
-                  <div class="font-semibold">R$ 450,00</div>
-                </div>
-              </div>
-              
-              <div class="flex justify-end space-x-2">
-                <button class="btn btn-success btn-sm rounded-full" disabled>
-                  <i class="fas fa-check-circle mr-2"></i>
-                  Entregue
-                </button>
-                <button class="btn btn-ghost btn-sm rounded-full">
-                  <i class="fas fa-eye mr-2"></i>
-                  Ver Detalhes
-                </button>
-              </div>
-            </div>
-
-            <!-- Pedido 4 - Preparando -->
-            <div class="order-row status-preparing bg-white border rounded-lg p-4">
-              <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
-                      <span class="text-primary-600 font-semibold">CS</span>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="font-semibold text-neutral-800">Carlos Santos</div>
-                    <div class="text-sm text-neutral-500">Pedido #SLV-004</div>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <div class="badge badge-warning badge-lg">Preparando</div>
-                  <div class="text-xs text-neutral-500 mt-1">12/01/2024</div>
-                </div>
-              </div>
-              
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div>
-                  <div class="text-sm text-neutral-500">Produto</div>
-                  <div class="font-semibold">Tirzepatida 5mg</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Quantidade</div>
-                  <div class="font-semibold">2 caixas (8 semanas)</div>
-                </div>
-                <div>
-                  <div class="text-sm text-neutral-500">Valor</div>
-                  <div class="font-semibold">R$ 900,00</div>
-                </div>
-              </div>
-              
-              <div class="flex justify-end space-x-2">
-                <button class="btn btn-primary btn-sm rounded-full" onclick="atualizarStatus(4, 'ready')">
-                  <i class="fas fa-check mr-2"></i>
-                  Marcar como Pronto
-                </button>
-                <button class="btn btn-ghost btn-sm rounded-full">
-                  <i class="fas fa-eye mr-2"></i>
-                  Ver Detalhes
-                </button>
-              </div>
-            </div>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </div>
 
           <!-- Paginação -->
           <div class="flex justify-between items-center mt-6">
             <div class="text-sm text-neutral-500">
-              Mostrando 1-4 de 42 pedidos
+              Mostrando <?= min(1, $total_pedidos) ?>-<?= min(10, $total_pedidos) ?> de <?= $total_pedidos ?> pedidos
             </div>
             <div class="join">
               <button class="join-item btn btn-sm">«</button>
@@ -489,20 +431,39 @@
   </div>
 
   <script>
-    // Funções para gerenciar pedidos
-    function atualizarStatus(pedidoId, novoStatus) {
-      const statusMap = {
-        'ready': { text: 'Pronto', class: 'badge-success', border: 'status-ready' },
-        'delivered': { text: 'Entregue', class: 'badge-info', border: 'status-delivered' }
-      };
+    // Função para atualizar status do pedido
+   // Função para atualizar status do pedido - CORRIGIDA
+function atualizarStatus(pedidoId, novoStatus) {
+    if (confirm(`Deseja atualizar o status do pedido #SLV-${pedidoId.toString().padStart(3, '0')}?`)) {
+        // Cria formulário para enviar via POST
+        const formData = new FormData();
+        formData.append('idpedido', pedidoId);
+        formData.append('idpedidostatus', novoStatus);
 
-      if (confirm(`Deseja atualizar o status do pedido #SLV-00${pedidoId}?`)) {
-        // Aqui viria a lógica de atualização no backend
-        alert(`Pedido #SLV-00${pedidoId} atualizado para "${statusMap[novoStatus].text}"!`);
-        
-        // Em uma aplicação real, isso seria feito via AJAX
-        // Por enquanto, apenas um alert para demonstrar
-      }
+        // Envia requisição POST
+        fetch('atualizar_status.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Status atualizado com sucesso!');
+                location.reload(); // Recarrega a página para mostrar mudanças
+            } else {
+                alert('Erro ao atualizar status: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Erro ao atualizar status');
+        });
+    }
+}
+    // Função para ver detalhes do pedido
+    function verDetalhes(pedidoId) {
+      // Redireciona para página de detalhes ou abre modal
+      window.location.href = `detalhes_pedido.php?id=${pedidoId}`;
     }
 
     // Script para menu ativo
@@ -518,6 +479,9 @@
           
           // Add active class to clicked item
           this.classList.add('active');
+          
+          // Navega para o link
+          window.location.href = this.getAttribute('href');
         });
       });
     });
